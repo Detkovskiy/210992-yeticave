@@ -17,7 +17,7 @@ $tomorrow = strtotime('tomorrow midnight');
 $now = strtotime('now');
 
 // время до начала следующих суток
-$lot_time_remaining = date("h : i", $tomorrow - $now);
+$lot_time_remaining = date("H : i", (($tomorrow - $now) - 10800));
 
 ?>
 <!DOCTYPE html>
