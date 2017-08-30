@@ -8,7 +8,7 @@ $bets = [
     ['name' => 'Семён', 'price' => 10000, 'ts' => strtotime('last week')]
 ];
 
-$time_now = strtotime('now');
+//$time_now = strtotime('now');
 
 function format_time($ts) {
     $time_now = strtotime('now');

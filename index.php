@@ -20,41 +20,41 @@ $now = strtotime('now');
 $lot_time_remaining = date("H : i", (($tomorrow - $now) - 10800));
 
 // массив с категориями товаров
-$categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
+$categories = ["Все категории", "Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
 
 // массив с объявлениями
 $ads = [
-    0 => [
+    [
         'title' => '2014 Rossignol District Snowboard',
         'category' => $categories[0],
         'price' => '10999',
         'url' => 'img/lot-1.jpg'
     ],
-    1 => [
+    [
         'title' => 'DC Ply Mens 2016/2017 Snowboard',
         'category' => $categories[0],
         'price' => '159999',
         'url' => 'img/lot-2.jpg'
     ],
-    2 => [
+    [
         'title' => 'Крепления Union Contact Pro 2015 года размер L/XL',
         'category' => $categories[1],
         'price' => '8000',
         'url' => 'img/lot-3.jpg'
     ],
-    3 => [
+    [
         'title' => 'Ботинки для сноуборда DC Mutiny Charocal',
         'category' => $categories[2],
         'price' => '10999',
         'url' => 'img/lot-4.jpg'
     ],
-    4 => [
+    [
         'title' => 'Куртка для сноуборда DC Mutiny Charocal',
         'category' => $categories[3],
         'price' => '7500',
         'url' => 'img/lot-5.jpg'
     ],
-    5 => [
+    [
         'title' => 'Маска Oakley Canopy',
         'category' => $categories[5],
         'price' => '5400',
@@ -142,7 +142,7 @@ $ads = [
             </select>
         </div>
         <ul class="lots__list">
-            <? foreach ($ads as $key => $value) : ?>
+            <? foreach ($ads as $value) : ?>
                 <li class="lots__item lot">
                     <div class="lot__image">
                         <img src="<?=$value['url']; ?>" width="350" height="260" alt="Сноуборд">
