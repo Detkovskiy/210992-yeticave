@@ -1,9 +1,4 @@
 <?php
-$is_auth = (bool) rand(0, 1);
-
-$user_name = 'Константин';
-$user_avatar = 'img/user.jpg';
-
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 
@@ -20,6 +15,7 @@ $now = strtotime('now');
 $lot_time_remaining = date("H : i", (($tomorrow - $now) - 10800));
 
 $title = "Главная";
+$main = "class=\"container\"";
 
 require_once 'data.php';
 require_once 'functions.php';
@@ -37,7 +33,8 @@ $layout = renderTemplate('templates/layout.php',
         'content' => $content,
         'is_auth' => $is_auth,
         'user_name' => $user_name,
-        'user_avatar' => $user_avatar
+        'user_avatar' => $user_avatar,
+        'main' => $main
     ]);
 
 print $layout;
