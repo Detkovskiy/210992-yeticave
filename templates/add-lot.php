@@ -1,4 +1,4 @@
-<form class="form form--add-lot container" action="add.php" method="post"> <!-- form--invalid -->
+<form class="form form--add-lot container" action="add.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
     <h2>Добавление лота</h2>
     <div class="form__container-two">
         <div class="form__item"> <!-- form__item--invalid -->
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="form__input-file">
-            <input class="visually-hidden" type="file" id="photo2" value="">
+            <input class="visually-hidden" type="file" id="photo2" name="lot-file" value="">
             <label for="photo2">
                 <span>+ Добавить</span>
             </label>
