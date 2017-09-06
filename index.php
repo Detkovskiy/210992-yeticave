@@ -22,7 +22,7 @@ require_once 'functions.php';
 
 $content = renderTemplate('templates/index.php',
     [
-        'ads' => $ads,
+        'array_lots' => $array_lots,
         'categories' => $categories,
         'lot_time_remaining' => $lot_time_remaining
     ]);

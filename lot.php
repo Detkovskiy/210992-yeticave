@@ -6,16 +6,16 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
 
-if ($id > count($ads)) {
+if ($array_lots[$id] == NULL) {
     http_response_code(404);
     $main = "class=\"container\"";
     $content = "Такой страницы не существует (ошибка 404)";
 } else {
     $main = '';
-    $ads = $ads[$id];
+    $array_lots = $array_lots[$id];
     $content = renderTemplate('templates/lot.php',
         [
-            'ads' => $ads,
+            'array_lots' => $array_lots,
             'id' => $id,
             'bets' => $bets
         ]);
@@ -23,7 +23,7 @@ if ($id > count($ads)) {
 
 $layout = renderTemplate('templates/layout.php',
     [
-        'title' => $ads[$id]['title'],
+        'title' => $array_lots[$id]['title'],
         'content' => $content,
         'is_auth' => $is_auth,
         'user_name' => $user_name,

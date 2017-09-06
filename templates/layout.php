@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?=$title; ?></title>
+    <title><?= $title; ?></title>
 <link href="css/normalize.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 </head>
@@ -21,14 +21,14 @@
         <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
 
         <nav class="user-menu">
-            <? if ($is_auth == true): ?>
+            <?php if ($is_auth): ?>
                 <div class="user-menu__image">
-                    <img src="<?=$user_avatar; ?>" width="40" height="40" alt="Пользователь">
+                    <img src="<?= $user_avatar; ?>" width="40" height="40" alt="Пользователь">
                 </div>
                 <div class="user-menu__logged">
-                    <p><?=htmlspecialchars($user_name); ?></p>
+                    <p><?= htmlspecialchars($user_name); ?></p>
                 </div>
-            <? else: ?>
+            <?php else: ?>
                 <ul class="user-menu__list">
                     <li class="user-menu__item">
                         <a href="#">Регистрация</a>
@@ -37,13 +37,13 @@
                         <a href="#">Вход</a>
                     </li>
                 </ul>
-            <? endif; ?>
+            <?php endif; ?>
         </nav>
     </div>
 </header>
 
-<main <?=$main; ?>>
-    <?=$content; ?>
+<main <?= $main; ?>>
+    <?= $content; ?>
 </main>
 
 <footer class="main-footer">
