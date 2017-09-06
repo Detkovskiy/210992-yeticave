@@ -73,3 +73,25 @@ function fileValidation() {
     }
     return $fileErrorText;
 }
+
+function validationLogin() {
+    $errors = ['error' => []];
+    $empty_field = ['email', 'password'];
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        foreach ($empty_field as $valueField) {
+            if ($_POST[$valueField] == '') {
+                $errors['error'][] = $valueField;
+            }
+        }
+
+        if (!in_array('email', $errors['error'])) {
+            if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $errors['error'][] = 'novalidation';
+            }
+        }
+    }
+
+    return $errors;
+}
