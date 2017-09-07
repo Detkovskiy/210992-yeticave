@@ -11,7 +11,6 @@ function search_user_email($email, $users) {
             $result = $user;
         }
     }
-
     return $result;
 }
 
@@ -20,9 +19,18 @@ $password = $_POST['password'];
 
 if ($user = search_user_email($email, $users)) {
     if (password_verify($password, $user['password'])) {
+
         $_SESSION['user'] = $user;
+
         header("Location: /210992-yeticave/index.php");
+    } else {
+        $errors['error'][] = 'no_valid_password';
+        $content = renderTemplate('templates/login.php',
+            [
+                'errors' => $errors
+            ]);
     }
+
 }
 
 

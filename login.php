@@ -9,7 +9,31 @@ require_once 'functions.php';
 $validation_errors = validationLogin();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error'])) {
-    require_once 'validation.php';
+    session_start();
+
+    require_once 'userdata.php';
+
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if ($user = search_user_email($email, $users)) {
+
+        if (password_verify($password, $user['password'])) {
+
+            $_SESSION['user'] = $user;
+            header("Location: /210992-yeticave/index.php");
+
+        } else {
+
+            $errors['error'][] = 'no_valid_password';
+            $content = renderTemplate('templates/login.php',
+
+                [
+                    'errors' => $errors
+                ]);
+        }
+    }
 
 } else {
     $content = renderTemplate('templates/login.php',

@@ -27,9 +27,9 @@
       <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $_POST['email'] ?? ''; ?>">
       <span class="form__error">Введите e-mail</span>
     </div>
-    <div class="form__item form__item--last <?= in_array('password', $validation_errors['error']) ? 'form__item--invalid' : ''; ?>">
+    <div class="form__item form__item--last <?= in_array('password', $validation_errors['error']) || in_array('no_valid_password', $errors['error']) ? 'form__item--invalid' : ''; ?>">
       <label for="password">Пароль*</label>
-      <input id="password" type="text" name="password" placeholder="Введите пароль" >
+      <input id="password" type="text" name="password" placeholder="<?= in_array('no_valid_password', $errors['error']) ? 'Вы ввели неверный пароль' : 'Введите пароль'; ?>" >
       <span class="form__error">Введите пароль</span>
     </div>
     <button type="submit" class="button">Войти</button>

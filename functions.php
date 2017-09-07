@@ -95,3 +95,14 @@ function validationLogin() {
 
     return $errors;
 }
+
+function search_user_email($email, $users) {
+    $result = NULL;
+
+    foreach ($users as $user) {
+        if ($user['email'] == $email) {
+            $result = $user;
+        }
+    }
+    return $result;
+}

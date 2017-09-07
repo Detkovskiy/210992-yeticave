@@ -31,8 +31,8 @@ $layout = renderTemplate('templates/layout.php',
     [
         'title' => $title,
         'content' => $content,
-        'is_auth' => $is_auth,
-        'user_name' => $user_name,
+        /*'is_auth' => $is_auth,
+        'user_name' => $user_name,*/
         'user_avatar' => $user_avatar,
         'main' => $main
     ]);
