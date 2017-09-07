@@ -1,4 +1,5 @@
 <?php
+session_start();
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 

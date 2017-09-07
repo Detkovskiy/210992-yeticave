@@ -1,18 +1,14 @@
 <?php
-
+session_start();
 $title = "Вход";
 
 require_once 'functions.php';
 
-
-
 $validation_errors = validationLogin();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error'])) {
-    session_start();
 
     require_once 'userdata.php';
-
 
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -22,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error'])) 
         if (password_verify($password, $user['password'])) {
 
             $_SESSION['user'] = $user;
-            header("Location: /210992-yeticave/index.php");
+            header("Location: index.php");
 
         } else {
 
@@ -41,9 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error'])) 
             'validation_errors' => $validation_errors
         ]);
 }
-
-
-
 
 $layout = renderTemplate('templates/layout.php',
     [
