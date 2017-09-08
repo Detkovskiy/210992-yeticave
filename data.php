@@ -1,9 +1,20 @@
 <?php
 session_start();
-$is_auth = (bool) rand(0, 1);
 
-$user_name = 'Константин';
 $user_avatar = 'img/user.jpg';
+
+// записать в эту переменную оставшееся время в этом формате (ЧЧ:ММ)
+$lot_time_remaining = "00:00";
+
+// временная метка для полночи следующего дня
+$tomorrow = strtotime('tomorrow midnight');
+
+// временная метка для настоящего времени
+$now = strtotime('now');
+
+// время до начала следующих суток
+$lot_time_remaining = date("H : i", (($tomorrow - $now) - 10800));
+$lot_time_remaining_sec = date("H:i:s", (($tomorrow - $now) - 10800));
 
 $bets = [
     ['name' => 'Иван', 'price' => 11500, 'ts' => strtotime('-' . rand(1, 50) .' minute')],
@@ -11,6 +22,7 @@ $bets = [
     ['name' => 'Евгений', 'price' => 10500, 'ts' => strtotime('-' . rand(25, 50) .' hour')],
     ['name' => 'Семён', 'price' => 10000, 'ts' => strtotime('last week')]
 ];
+
 // массив с категориями товаров
 $categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
 

@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error'])) 
                 ]);
         }
     }
-
 } else {
     $content = renderTemplate('templates/login.php',
         [

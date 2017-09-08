@@ -31,6 +31,25 @@ function format_time($ts) {
     }
 }
 
+function time_bet($ts) {
+    $time_now = strtotime('now');
+    $one_day = strtotime('-1 hour');
+    $one_hour = strtotime('-1 day');
+    $time_difference = $time_now - $ts;
+
+    switch ($ts) {
+        case $ts < $one_day:
+            return date("d.m.y в H:i", $ts);
+            break;
+        case $ts < $one_hour:
+            return date("G часов назад", $time_difference);
+            break;
+        default:
+            return date("i минут назад", $time_difference);
+            break;
+    }
+}
+
 function validation() {
     $errors = ['error' => []];
     $field_numeric = ['lot-rate', 'lot-step'];
@@ -104,5 +123,31 @@ function search_user_email($email, $users) {
             $result = $user;
         }
     }
+
+    return $result;
+}
+
+function cost_validation() {
+    $errors = NULL;
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_POST['cost'] == '') {
+            $errors = 1;
+        }
+    }
+
+    return $errors;
+}
+
+function find_bets($array) {
+    $result = false;
+
+    foreach ($array as $lots) {
+        if ($lots['lot_id'] === $_GET['id']) {
+            $result = true;
+            break;
+        }
+    }
+
     return $result;
 }
