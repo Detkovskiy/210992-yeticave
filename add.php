@@ -28,7 +28,8 @@ if (isset($_SESSION['user'])) {
         $content = renderTemplate('templates/lot.php',
             [
                 'bets' => $bets,
-                'array_lots' => $userLot
+                'array_lots' => $userLot,
+                'lot_time_remaining' => $lot_time_remaining
             ]);
 
     } else {
