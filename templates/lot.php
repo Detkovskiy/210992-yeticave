@@ -41,10 +41,11 @@
         <?php endif; ?>
     </div>
     <div class="lot-item__right">
-        <?php if (isset($_SESSION['user'])): ?>
+        <?php /*print_r($check_bets); */?>
+        <?php if (isset($_SESSION['user']) and !$check_bets): ?>
         <div class="lot-item__state">
             <div class="lot-item__timer timer">
-                10:54:12
+                <?= $lot_time_remaining; ?>
             </div>
             <div class="lot-item__cost-state">
                 <div class="lot-item__rate">
@@ -55,10 +56,10 @@
                     Мин. ставка <span>12 000 р</span>
                 </div>
             </div>
-            <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
+            <form class="lot-item__form" action="lot.php" method="post">
                 <p class="lot-item__form-item">
                     <label for="cost">Ваша ставка</label>
-                    <input id="cost" type="number" name="cost" placeholder="12 000">
+                    <input id="cost" type="number" name="cost" placeholder="12 000" required>
                 </p>
                 <button type="submit" class="button">Сделать ставку</button>
             </form>
