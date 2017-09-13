@@ -57,7 +57,10 @@ function validation() {
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         foreach ($field_numeric as $valueField) {
-            if (!is_numeric($_POST[$valueField])) {
+            if (!is_numeric($_POST[$valueField]))  {
+                $errors['error'][] = $valueField;
+            }
+            if ($_POST[$valueField] == 0) {
                 $errors['error'][] = $valueField;
             }
         }
@@ -73,23 +76,24 @@ function validation() {
 }
 
 function fileValidation() {
+    $mime_type = ['image/png', 'image/jpeg'];
     $fileErrorText = '';
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['lot-file'])) {
-        $file_info = finfo_open(FILEINFO_MIME_TYPE);
         $file_name = $_FILES['lot-file']['tmp_name'];
         $file_size = $_FILES['lot-file']['size'];
-        $file_type = finfo_file($file_info, $file_name);
+        $file_type = mime_content_type($file_name);
         $file_max_size = 1000000;
 
-        if ($file_type !== 'image/jpeg') {
-            $fileErrorText = 'Загрузите картинку в формате jpg';
+        if (!in_array($file_type, $mime_type)){
+            $fileErrorText = 'Загрузите картинку в формате jpg или png';
         }
 
         if ($file_size > $file_max_size) {
             $fileErrorText .= 'Максимальный размер файла: 1МБ';
         }
     }
+
     return $fileErrorText;
 }
 

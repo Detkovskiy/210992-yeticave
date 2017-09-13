@@ -67,4 +67,4 @@ $array_lots = [
 ];
 
 $text_error_empty_field = 'Заполните это поле';
-$text_error_numeric_field = 'В это поле вводить только цифры';
+$text_error_numeric_field = 'Вводить только цифры, больше нуля';
