@@ -10,9 +10,9 @@ if (isset($_GET['id'])) {
 }
 
 $my_lots = [];
-$check_bet = false;
+$check_bets = false;
 
-if($_SESSION['my_lots']) {
+if(isset($_SESSION['my_lots']) && $_SESSION['my_lots']) {
     $my_lots = json_decode($_SESSION['my_lots'], true);
     $check_bets = find_bets($my_lots);
 }
@@ -23,10 +23,10 @@ if ($array_lots[$id] == NULL) {
     $content = "Такой страницы не существует (ошибка 404)";
 } else {
     $main = '';
-    $array_lots = $array_lots[$id];
+    $current_lot = $array_lots[$id];
     $content = renderTemplate('templates/lot.php',
         [
-            'array_lots' => $array_lots,
+            'current_lot' => $current_lot,
             'id' => $id,
             'bets' => $bets,
             'lot_time_remaining' => $lot_time_remaining,
