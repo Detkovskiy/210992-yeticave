@@ -3,10 +3,10 @@ session_start();
 $title = "Вход";
 
 require_once 'functions.php';
-$errors['error'][] = '';
+$errors = [];
 $validation_errors = login_validation();
 
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error'])) {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors)) {
 
     require_once 'userdata.php';
 
@@ -22,7 +22,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' &&
 
         } else {
 
-            $errors['error'][] = 'no_valid_password';
+            $errors[] = 'no_valid_password';
             $content = render_template('templates/login.php',
 
                 [

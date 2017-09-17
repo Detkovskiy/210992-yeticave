@@ -59,23 +59,23 @@ function time_bet($ts) {
  * @return array errors
  */
 function validation() {
-    $errors = ['error' => []];
+    $errors = [];
     $field_numeric = ['lot-rate', 'lot-step'];
     $empty_field = ['lot-name', 'category', 'message', 'lot-date'];
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        foreach ($field_numeric as $valueField) {
-            if (!is_numeric($_POST[$valueField]))  {
-                $errors['error'][] = $valueField;
+        foreach ($field_numeric as $value_field) {
+            if (!is_numeric($_POST[$value_field]))  {
+                $errors[] = $value_field;
             }
-            if ($_POST[$valueField] == 0) {
-                $errors['error'][] = $valueField;
+            if ($_POST[$value_field] == 0) {
+                $errors[] = $value_field;
             }
         }
 
-        foreach ($empty_field as $valueField) {
-            if ($_POST[$valueField] == '') {
-                $errors['error'][] = $valueField;
+        foreach ($empty_field as $value_field) {
+            if ($_POST[$value_field] == '') {
+                $errors[] = $value_field;
             }
         }
     }
@@ -88,7 +88,7 @@ function validation() {
  */
 function file_validation() {
     $mime_type = ['image/png', 'image/jpeg'];
-    $fileErrorText = '';
+    $file_error_text = '';
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['lot-file'])) {
         $file_name = $_FILES['lot-file']['tmp_name'];
@@ -97,32 +97,32 @@ function file_validation() {
         $file_max_size = 1000000;
 
         if (!in_array($file_type, $mime_type)){
-            $fileErrorText = 'Загрузите картинку в формате jpg или png';
+            $file_error_text = 'Загрузите картинку в формате jpg или png';
         }
 
         if ($file_size > $file_max_size) {
-            $fileErrorText .= 'Максимальный размер файла: 1МБ';
+            $file_error_text .= 'Максимальный размер файла: 1МБ';
         }
     }
 
-    return $fileErrorText;
+    return $file_error_text;
 }
 
 function login_validation() {
-    $errors = ['error' => []];
+    $errors = [];
     $empty_field = ['email', 'password'];
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        foreach ($empty_field as $valueField) {
-            if ($_POST[$valueField] == '') {
-                $errors['error'][] = $valueField;
+        foreach ($empty_field as $value_field) {
+            if ($_POST[$value_field] == '') {
+                $errors[] = $value_field;
             }
         }
 
-        if (!in_array('email', $errors['error'])) {
+        if (!in_array('email', $errors)) {
             if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                $errors['error'][] = 'novalidation';
+                $errors[] = 'novalidation';
             }
         }
     }

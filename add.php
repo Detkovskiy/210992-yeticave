@@ -9,7 +9,7 @@ $title = "Добавление лота";
 $validation_errors = validation();
 $error_validation_file = file_validation();
 if (isset($_SESSION['user'])) {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error']) && empty($error_validation_file)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors) && empty($error_validation_file)) {
         $userLot = [];
 
         if (isset($_FILES['lot-file'])) {
