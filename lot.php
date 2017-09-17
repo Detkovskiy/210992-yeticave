@@ -5,19 +5,18 @@ require_once 'data.php';
 require_once 'functions.php';
 
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $_SESSION['id'] = $_GET['id'];
+    $id = $_SESSION['id'] = $_GET['id'];
 }
 
 $my_lots = [];
 $check_bets = false;
 
-if(/*isset($_SESSION['my_lots']) && */$_SESSION['my_lots']) {
+if(isset($_SESSION['my_lots']) && $_SESSION['my_lots']) {
     $my_lots = json_decode($_SESSION['my_lots'], true);
     $check_bets = find_bets($my_lots);
 }
 
-if ($array_lots[$id] == null) {
+if (isset($_GET['id']) && $array_lots[$id] == null) {
     http_response_code(404);
     $main = "class=\"container\"";
     $content = "Такой страницы не существует (ошибка 404)";
