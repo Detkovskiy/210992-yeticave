@@ -7,7 +7,7 @@ $title = "Добавление лота";
 
 
 $validation_errors = validation();
-$error_validation_file = fileValidation();
+$error_validation_file = file_validation();
 if (isset($_SESSION['user'])) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error']) && empty($error_validation_file)) {
         $userLot = [];
@@ -25,7 +25,7 @@ if (isset($_SESSION['user'])) {
         $userLot['price'] = $_POST['lot-rate'];
         $userLot['description'] = htmlspecialchars($_POST['message']);
 
-        $content = renderTemplate('templates/lot.php',
+        $content = render_template('templates/lot.php',
             [
                 'bets' => $bets,
                 'array_lots' => $userLot,
@@ -33,7 +33,7 @@ if (isset($_SESSION['user'])) {
             ]);
 
     } else {
-        $content = renderTemplate('templates/add-lot.php',
+        $content = render_template('templates/add-lot.php',
             [
                 'validation_errors' => $validation_errors,
                 'text_error_empty_field' => $text_error_empty_field,
@@ -43,7 +43,7 @@ if (isset($_SESSION['user'])) {
             ]);
     }
 
-    $layout = renderTemplate('templates/layout.php',
+    $layout = render_template('templates/layout.php',
         [
             'title' => $title,
             'content' => $content,

@@ -4,7 +4,7 @@ session_start();
 require_once 'userdata.php';
 
 function search_user_email($email, $users) {
-    $result = NULL;
+    $result = null;
 
     foreach ($users as $user) {
         if ($user['email'] == $email) {
@@ -25,7 +25,7 @@ if ($user = search_user_email($email, $users)) {
         header("Location: /210992-yeticave/index.php");
     } else {
         $errors['error'][] = 'no_valid_password';
-        $content = renderTemplate('templates/login.php',
+        $content = render_template('templates/login.php',
             [
                 'errors' => $errors
             ]);

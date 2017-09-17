@@ -1,7 +1,12 @@
 <?php
 
-function renderTemplate($file_template, $data) {
-    if (file_exists($file_template)/* and is_array($data)*/) {
+/**
+ * @param $file_template
+ * @param $data
+ * @return string
+ */
+function render_template($file_template, $data) {
+    if (file_exists($file_template)) {
         extract($data);
         ob_start('ob_gzhandler');
         require_once $file_template;
@@ -50,6 +55,9 @@ function time_bet($ts) {
     }
 }
 
+/**
+ * @return array errors
+ */
 function validation() {
     $errors = ['error' => []];
     $field_numeric = ['lot-rate', 'lot-step'];
@@ -75,7 +83,10 @@ function validation() {
     return $errors;
 }
 
-function fileValidation() {
+/**
+ * @return string
+ */
+function file_validation() {
     $mime_type = ['image/png', 'image/jpeg'];
     $fileErrorText = '';
 
@@ -97,7 +108,7 @@ function fileValidation() {
     return $fileErrorText;
 }
 
-function validationLogin() {
+function login_validation() {
     $errors = ['error' => []];
     $empty_field = ['email', 'password'];
 
@@ -120,7 +131,7 @@ function validationLogin() {
 }
 
 function search_user_email($email, $users) {
-    $result = NULL;
+    $result = null;
 
     foreach ($users as $user) {
         if ($user['email'] == $email) {
@@ -132,7 +143,7 @@ function search_user_email($email, $users) {
 }
 
 function cost_validation() {
-    $errors = NULL;
+    $errors = null;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($_POST['cost'] == '') {

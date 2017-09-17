@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $user_avatar = 'img/user.jpg';
 $user_name = 'Констатнтин';
 

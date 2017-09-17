@@ -11,14 +11,14 @@ $main = "class=\"container\"";
 require_once 'data.php';
 require_once 'functions.php';
 
-$content = renderTemplate('templates/index.php',
+$content = render_template('templates/index.php',
     [
         'array_lots' => $array_lots,
         'categories' => $categories,
         'lot_time_remaining' => $lot_time_remaining
     ]);
 
-$layout = renderTemplate('templates/layout.php',
+$layout = render_template('templates/layout.php',
     [
         'title' => $title,
         'content' => $content,

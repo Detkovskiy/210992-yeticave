@@ -9,14 +9,14 @@ if($_SESSION['my_lots']) {
     $my_lots = json_decode($_SESSION['my_lots'], true);
 }
 
-$content = renderTemplate('templates/my-lots.php',
+$content = render_template('templates/my-lots.php',
     [
         'my_lots' => $my_lots,
         'array_lots' => $array_lots,
         'lot_time_remaining_sec' => $lot_time_remaining_sec
     ]);
 
-$layout = renderTemplate('templates/layout.php',
+$layout = render_template('templates/layout.php',
     [
         'title' => 'Мои ставки',
         'content' => $content,

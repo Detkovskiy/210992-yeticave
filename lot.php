@@ -12,19 +12,19 @@ if (isset($_GET['id'])) {
 $my_lots = [];
 $check_bets = false;
 
-if(isset($_SESSION['my_lots']) && $_SESSION['my_lots']) {
+if(/*isset($_SESSION['my_lots']) && */$_SESSION['my_lots']) {
     $my_lots = json_decode($_SESSION['my_lots'], true);
     $check_bets = find_bets($my_lots);
 }
 
-if ($array_lots[$id] == NULL) {
+if ($array_lots[$id] == null) {
     http_response_code(404);
     $main = "class=\"container\"";
     $content = "Такой страницы не существует (ошибка 404)";
 } else {
     $main = '';
     $current_lot = $array_lots[$id];
-    $content = renderTemplate('templates/lot.php',
+    $content = render_template('templates/lot.php',
         [
             'current_lot' => $current_lot,
             'id' => $id,
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors)) {
     header("Location: my-lots.php");
 }
 
-$layout = renderTemplate('templates/layout.php',
+$layout = render_template('templates/layout.php',
     [
         'title' => $array_lots[$id]['title'],
         'content' => $content,
