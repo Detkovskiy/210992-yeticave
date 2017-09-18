@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @param $file_template
- * @param $data
- * @return string
- */
 function render_template($file_template, $data) {
     if (file_exists($file_template)) {
         extract($data);
@@ -55,9 +50,6 @@ function time_bet($ts) {
     }
 }
 
-/**
- * @return array errors
- */
 function validation() {
     $errors = [];
     $field_numeric = ['lot-rate', 'lot-step'];
@@ -83,9 +75,6 @@ function validation() {
     return $errors;
 }
 
-/**
- * @return string
- */
 function file_validation() {
     $mime_type = ['image/png', 'image/jpeg'];
     $file_error_text = '';
