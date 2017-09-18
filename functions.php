@@ -77,24 +77,30 @@ function validation() {
 
 function file_validation() {
     $mime_type = ['image/png', 'image/jpeg'];
-    $file_error_text = '';
+    $result = [];
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['lot-file'])) {
-        $file_name = $_FILES['lot-file']['tmp_name'];
+        $file_tmp_name = $_FILES['lot-file']['tmp_name'];
         $file_size = $_FILES['lot-file']['size'];
-        $file_type = mime_content_type($file_name);
+        $file_type = mime_content_type($file_tmp_name);
         $file_max_size = 1000000;
 
         if (!in_array($file_type, $mime_type)){
-            $file_error_text = 'Загрузите картинку в формате jpg или png';
+            $result['error'] = 'Загрузите картинку в формате jpg или png' . "<br>";
         }
 
         if ($file_size > $file_max_size) {
-            $file_error_text .= 'Максимальный размер файла: 1МБ';
+            $result['error'] .= 'Максимальный размер файла не должен превышать - 1МБ';
         }
+
+        $file_name = $_FILES['lot-file']['name'];
+        $file_path = __DIR__ . '/img/';
+        $file_url = 'img/' . $file_name;
+        move_uploaded_file($_FILES['lot-file']['tmp_name'], $file_path . $file_name);
+        $result['url'] = $file_url;
     }
 
-    return $file_error_text;
+    return $result;
 }
 
 function login_validation() {
@@ -111,7 +117,7 @@ function login_validation() {
 
         if (!in_array('email', $errors)) {
             if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                $errors[] = 'novalidation';
+                $errors[] = 'error_mail_validation';
             }
         }
     }

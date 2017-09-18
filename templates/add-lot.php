@@ -1,6 +1,4 @@
-<?php /*print_r($validation_errors['error']) */?>
-<?php /*print_r($error_validation_file); */?>
-<form class="form form--add-lot container <?= !empty($validation_errors) || !empty($error_validation_file) ? 'form--invalid' : '' ?>" action="add.php" method="post" enctype="multipart/form-data">
+<form class="form form--add-lot container <?= !empty($validation_errors) || !empty($validation_file['error']) ? 'form--invalid' : '' ?>" action="add.php" method="post" enctype="multipart/form-data">
     <h2>Добавление лота</h2>
     <div class="form__container-two">
         <div class="form__item <?= in_array('lot-name', $validation_errors) ? 'form__item--invalid' : ''; ?>">
@@ -24,7 +22,7 @@
         <textarea id="message" name="message" placeholder="Напишите описание лота"><?= empty($_POST['message']) ? '' : $_POST['message'];?></textarea>
         <span class="form__error"><?= in_array('message', $validation_errors) ? $text_error_empty_field : ''; ?></span>
     </div>
-    <div class="form__item form__item--file <?= !empty($error_validation_file) ? 'form__item--invalid' : ''; ?>">
+    <div class="form__item form__item--file <?= !empty($validation_file['error']) ? 'form__item--invalid' : ''; ?>">
         <label>Изображение</label>
         <div class="preview">
             <button class="preview__remove" type="button">x</button>
@@ -38,7 +36,7 @@
                 <span>+ Добавить</span>
             </label>
         </div>
-        <span class="form__error"><?= $error_validation_file; ?></span>
+        <span class="form__error"><?= $validation_file['error']; ?></span>
     </div>
     <div class="form__container-three">
         <div class="form__item form__item--small <?= in_array('lot-rate', $validation_errors) ? 'form__item--invalid' : ''; ?>">

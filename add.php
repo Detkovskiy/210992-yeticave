@@ -7,28 +7,22 @@ $title = "Добавление лота";
 
 
 $validation_errors = validation();
-$error_validation_file = file_validation();
+$validation_file = file_validation();
+
 if (isset($_SESSION['user'])) {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors) && empty($error_validation_file)) {
-        $userLot = [];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors) && empty($validation_file['error'])) {
+        $user_add_lot = [];
 
-        if (isset($_FILES['lot-file'])) {
-            $file_name = $_FILES['lot-file']['name'];
-            $file_path = __DIR__ . '/img/';
-            $file_url = 'img/' . $file_name;
-            move_uploaded_file($_FILES['lot-file']['tmp_name'], $file_path . $file_name);
-            $userLot['url'] = $file_url;
-        }
-
-        $userLot['title'] = htmlspecialchars($_POST['lot-name']);
-        $userLot['category'] = $_POST['category'];
-        $userLot['price'] = $_POST['lot-rate'];
-        $userLot['description'] = htmlspecialchars($_POST['message']);
+        $user_add_lot['url'] = $validation_file['url'];
+        $user_add_lot['title'] = htmlspecialchars($_POST['lot-name']);
+        $user_add_lot['category'] = $_POST['category'];
+        $user_add_lot['price'] = $_POST['lot-rate'];
+        $user_add_lot['description'] = htmlspecialchars($_POST['message']);
 
         $content = render_template('templates/lot.php',
             [
                 'bets' => $bets,
-                'array_lots' => $userLot,
+                'current_lot' => $user_add_lot,
                 'lot_time_remaining' => $lot_time_remaining
             ]);
 
@@ -39,7 +33,7 @@ if (isset($_SESSION['user'])) {
                 'text_error_empty_field' => $text_error_empty_field,
                 'text_error_numeric_field' => $text_error_numeric_field,
                 'categories' => $categories,
-                'error_validation_file' => $error_validation_file
+                'validation_file' => $validation_file
             ]);
     }
 
