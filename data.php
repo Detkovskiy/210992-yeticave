@@ -1,7 +1,7 @@
 <?php
 session_start();
-
 $user_avatar = 'img/user.jpg';
+$user_name = 'Констатнтин';
 
 // записать в эту переменную оставшееся время в этом формате (ЧЧ:ММ)
 $lot_time_remaining = "00:00";

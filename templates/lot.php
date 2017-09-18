@@ -21,16 +21,16 @@
     </ul>
 </nav>
 <section class="lot-item container">
-    <h2><?= $array_lots['title']; ?></h2>
+    <h2><?= $current_lot['title']; ?></h2>
 <div class="lot-item__content">
     <div class="lot-item__left">
         <div class="lot-item__image">
-            <img src="<?= $array_lots['url']; ?>" width="730" height="548" alt="Сноуборд">
+            <img src="<?= $current_lot['url']; ?>" width="730" height="548" alt="Сноуборд">
         </div>
-        <p class="lot-item__category">Категория: <span><?= $array_lots['category']; ?></span></p>
+        <p class="lot-item__category">Категория: <span><?= $current_lot['category']; ?></span></p>
         <p class="lot-item__description">
-            <?php if ($array_lots['description'] != ''): ?>
-                <?= $array_lots['description']; ?>
+            <?php if (isset($current_lot['description']) && $current_lot['description'] != ''): ?>
+                <?= $current_lot['description']; ?>
             <?php else: ?>
             Легкий маневренный сноуборд, готовый дать жару в любом парке, растопив снег
             мощным щелчкоми четкими дугами. Стекловолокно Bi-Ax, уложенное в двух направлениях, наделяет этот
@@ -50,7 +50,7 @@
             <div class="lot-item__cost-state">
                 <div class="lot-item__rate">
                     <span class="lot-item__amount">Текущая цена</span>
-                    <span class="lot-item__cost"><?= $array_lots['price']; ?></span>
+                    <span class="lot-item__cost"><?= $current_lot['price']; ?></span>
                 </div>
                 <div class="lot-item__min-cost">
                     Мин. ставка <span>12 000 р</span>

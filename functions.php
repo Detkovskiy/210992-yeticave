@@ -1,7 +1,7 @@
 <?php
 
-function renderTemplate($file_template, $data) {
-    if (file_exists($file_template)/* and is_array($data)*/) {
+function render_template($file_template, $data) {
+    if (file_exists($file_template)) {
         extract($data);
         ob_start('ob_gzhandler');
         require_once $file_template;
@@ -51,23 +51,23 @@ function time_bet($ts) {
 }
 
 function validation() {
-    $errors = ['error' => []];
+    $errors = [];
     $field_numeric = ['lot-rate', 'lot-step'];
     $empty_field = ['lot-name', 'category', 'message', 'lot-date'];
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        foreach ($field_numeric as $valueField) {
-            if (!is_numeric($_POST[$valueField]))  {
-                $errors['error'][] = $valueField;
+        foreach ($field_numeric as $value_field) {
+            if (!is_numeric($_POST[$value_field]))  {
+                $errors[] = $value_field;
             }
-            if ($_POST[$valueField] == 0) {
-                $errors['error'][] = $valueField;
+            if ($_POST[$value_field] == 0) {
+                $errors[] = $value_field;
             }
         }
 
-        foreach ($empty_field as $valueField) {
-            if ($_POST[$valueField] == '') {
-                $errors['error'][] = $valueField;
+        foreach ($empty_field as $value_field) {
+            if ($_POST[$value_field] == '') {
+                $errors[] = $value_field;
             }
         }
     }
@@ -75,43 +75,51 @@ function validation() {
     return $errors;
 }
 
-function fileValidation() {
+function file_validation() {
     $mime_type = ['image/png', 'image/jpeg'];
-    $fileErrorText = '';
+    $result = [];
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['lot-file'])) {
-        $file_name = $_FILES['lot-file']['tmp_name'];
+        $file_tmp_name = $_FILES['lot-file']['tmp_name'];
         $file_size = $_FILES['lot-file']['size'];
-        $file_type = mime_content_type($file_name);
+        $file_type = mime_content_type($file_tmp_name);
         $file_max_size = 1000000;
 
         if (!in_array($file_type, $mime_type)){
-            $fileErrorText = 'Загрузите картинку в формате jpg или png';
+            $result['error'] = 'Загрузите картинку в формате jpg или png' . "<br>";
         }
 
         if ($file_size > $file_max_size) {
-            $fileErrorText .= 'Максимальный размер файла: 1МБ';
+            $result['error'] .= 'Максимальный размер файла не должен превышать - 1МБ';
+        }
+
+        if (empty($result['error'])) {
+            $file_name = $_FILES['lot-file']['name'];
+            $file_path = __DIR__ . '/img/';
+            $file_url = 'img/' . $file_name;
+            move_uploaded_file($_FILES['lot-file']['tmp_name'], $file_path . $file_name);
+            $result['url'] = $file_url;
         }
     }
 
-    return $fileErrorText;
+    return $result;
 }
 
-function validationLogin() {
-    $errors = ['error' => []];
+function login_validation() {
+    $errors = [];
     $empty_field = ['email', 'password'];
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        foreach ($empty_field as $valueField) {
-            if ($_POST[$valueField] == '') {
-                $errors['error'][] = $valueField;
+        foreach ($empty_field as $value_field) {
+            if ($_POST[$value_field] == '') {
+                $errors[] = $value_field;
             }
         }
 
-        if (!in_array('email', $errors['error'])) {
+        if (!in_array('email', $errors)) {
             if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                $errors['error'][] = 'novalidation';
+                $errors[] = 'error_mail_validation';
             }
         }
     }
@@ -120,7 +128,7 @@ function validationLogin() {
 }
 
 function search_user_email($email, $users) {
-    $result = NULL;
+    $result = null;
 
     foreach ($users as $user) {
         if ($user['email'] == $email) {
@@ -132,7 +140,7 @@ function search_user_email($email, $users) {
 }
 
 function cost_validation() {
-    $errors = NULL;
+    $errors = null;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($_POST['cost'] == '') {

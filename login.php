@@ -3,10 +3,10 @@ session_start();
 $title = "Вход";
 
 require_once 'functions.php';
+$errors = [];
+$validation_errors = login_validation();
 
-$validation_errors = validationLogin();
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error'])) {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors)) {
 
     require_once 'userdata.php';
 
@@ -22,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error'])) 
 
         } else {
 
-            $errors['error'][] = 'no_valid_password';
-            $content = renderTemplate('templates/login.php',
+            $errors[] = 'no_valid_password';
+            $content = render_template('templates/login.php',
 
                 [
                     'errors' => $errors
@@ -31,13 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error'])) 
         }
     }
 } else {
-    $content = renderTemplate('templates/login.php',
+    $content = render_template('templates/login.php',
         [
-            'validation_errors' => $validation_errors
+            'validation_errors' => $validation_errors,
+            'errors' => $errors
         ]);
 }
 
-$layout = renderTemplate('templates/layout.php',
+$layout = render_template('templates/layout.php',
     [
         'title' => $title,
         'content' => $content,

@@ -7,43 +7,37 @@ $title = "Добавление лота";
 
 
 $validation_errors = validation();
-$error_validation_file = fileValidation();
+$validation_file = file_validation();
+
 if (isset($_SESSION['user'])) {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors['error']) && empty($error_validation_file)) {
-        $userLot = [];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors) && empty($validation_file['error'])) {
+        $user_add_lot = [];
 
-        if (isset($_FILES['lot-file'])) {
-            $file_name = $_FILES['lot-file']['name'];
-            $file_path = __DIR__ . '/img/';
-            $file_url = 'img/' . $file_name;
-            move_uploaded_file($_FILES['lot-file']['tmp_name'], $file_path . $file_name);
-            $userLot['url'] = $file_url;
-        }
+        $user_add_lot['url'] = $validation_file['url'];
+        $user_add_lot['title'] = htmlspecialchars($_POST['lot-name']);
+        $user_add_lot['category'] = $_POST['category'];
+        $user_add_lot['price'] = $_POST['lot-rate'];
+        $user_add_lot['description'] = htmlspecialchars($_POST['message']);
 
-        $userLot['title'] = htmlspecialchars($_POST['lot-name']);
-        $userLot['category'] = $_POST['category'];
-        $userLot['price'] = $_POST['lot-rate'];
-        $userLot['description'] = htmlspecialchars($_POST['message']);
-
-        $content = renderTemplate('templates/lot.php',
+        $content = render_template('templates/lot.php',
             [
                 'bets' => $bets,
-                'array_lots' => $userLot,
+                'current_lot' => $user_add_lot,
                 'lot_time_remaining' => $lot_time_remaining
             ]);
 
     } else {
-        $content = renderTemplate('templates/add-lot.php',
+        $content = render_template('templates/add-lot.php',
             [
                 'validation_errors' => $validation_errors,
                 'text_error_empty_field' => $text_error_empty_field,
                 'text_error_numeric_field' => $text_error_numeric_field,
                 'categories' => $categories,
-                'error_validation_file' => $error_validation_file
+                'validation_file' => $validation_file
             ]);
     }
 
-    $layout = renderTemplate('templates/layout.php',
+    $layout = render_template('templates/layout.php',
         [
             'title' => $title,
             'content' => $content,
