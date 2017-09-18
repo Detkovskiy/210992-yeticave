@@ -93,11 +93,13 @@ function file_validation() {
             $result['error'] .= 'Максимальный размер файла не должен превышать - 1МБ';
         }
 
-        $file_name = $_FILES['lot-file']['name'];
-        $file_path = __DIR__ . '/img/';
-        $file_url = 'img/' . $file_name;
-        move_uploaded_file($_FILES['lot-file']['tmp_name'], $file_path . $file_name);
-        $result['url'] = $file_url;
+        if (empty($result['error'])) {
+            $file_name = $_FILES['lot-file']['name'];
+            $file_path = __DIR__ . '/img/';
+            $file_url = 'img/' . $file_name;
+            move_uploaded_file($_FILES['lot-file']['tmp_name'], $file_path . $file_name);
+            $result['url'] = $file_url;
+        }
     }
 
     return $result;
