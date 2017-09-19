@@ -2,11 +2,16 @@
 session_start();
 
 require_once 'data.php';
-require_once 'functions.php';
+//require_once 'functions.php';
+require_once 'init.php';
 
 if (isset($_GET['id'])) {
     $id = $_SESSION['id'] = $_GET['id'];
 }
+
+$sql_lots = 'SELECT l.id, lot_name, cost, image, description, category_name FROM lots l JOIN categories c ON category_id = c.id WHERE l.id = ?;';
+
+$array_lots = select_data($link, $sql_lots, [$id]);
 
 $my_lots = [];
 $check_bets = false;
@@ -15,14 +20,14 @@ if(isset($_SESSION['my_lots']) && $_SESSION['my_lots']) {
     $my_lots = json_decode($_SESSION['my_lots'], true);
     $check_bets = find_bets($my_lots);
 }
-
-if (isset($_GET['id']) && $array_lots[$id] == null) {
+$aa = $array_lots[0]['id'];
+if (isset($_GET['id']) && !($array_lots[0]['id'] == $id)) {
     http_response_code(404);
     $main = "class=\"container\"";
     $content = "Такой страницы не существует (ошибка 404)";
 } else {
     $main = '';
-    $current_lot = $array_lots[$id];
+    $current_lot = select_data($link, $sql_lots, [$id]);
     $content = render_template('templates/lot.php',
         [
             'current_lot' => $current_lot,

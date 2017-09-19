@@ -24,10 +24,10 @@ $bets = [
 ];
 
 // массив с категориями товаров
-$categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
+//$categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
 
 // массив с объявлениями
-$array_lots = [
+/*$array_lots = [
     [
         'title' => '2014 Rossignol District Snowboard',
         'category' => $categories[0],
@@ -64,7 +64,7 @@ $array_lots = [
         'price' => '5400',
         'url' => 'img/lot-6.jpg'
     ]
-];
+];*/
 
 $text_error_empty_field = 'Заполните это поле';
 $text_error_numeric_field = 'Вводить только цифры, больше нуля';

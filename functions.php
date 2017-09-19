@@ -168,7 +168,8 @@ function find_bets($array) {
 function select_data($link, $sql, $data) {
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     mysqli_stmt_execute($stmt);
-    $result = mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
+    $aw = mysqli_stmt_get_result($stmt);
+    $result = mysqli_fetch_all($aw, MYSQLI_ASSOC);
 
     return $result;
 }
