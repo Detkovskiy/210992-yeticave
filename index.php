@@ -11,7 +11,6 @@ $main = "class=\"container\"";
 require_once 'data.php';
 require_once 'init.php';
 
-$categories = select_data($link, 'SELECT category_name FROM categories;', '');
 
 $sql_lots = 'SELECT l.id, lot_name, cost, image, category_name FROM lots l JOIN categories c ON category_id = c.id;';
 

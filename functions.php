@@ -76,13 +76,13 @@ function validation() {
     return $errors;
 }
 
-function file_validation() {
+function file_validation($field_form) {
     $mime_type = ['image/png', 'image/jpeg'];
     $result = [];
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['lot-file'])) {
-        $file_tmp_name = $_FILES['lot-file']['tmp_name'];
-        $file_size = $_FILES['lot-file']['size'];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES[$field_form])) {
+        $file_tmp_name = $_FILES[$field_form]['tmp_name'];
+        $file_size = $_FILES[$field_form]['size'];
         $file_type = mime_content_type($file_tmp_name);
         $file_max_size = 1000000;
 
@@ -95,11 +95,18 @@ function file_validation() {
         }
 
         if (empty($result['error'])) {
-            $file_name = $_FILES['lot-file']['name'];
-            $file_path = __DIR__ . '/img/';
-            $file_url = 'img/' . $file_name;
-            move_uploaded_file($_FILES['lot-file']['tmp_name'], $file_path . $file_name);
-            $result['url'] = $file_url;
+            $file_name = $_FILES[$field_form]['name'];
+            if ($field_form == "avatar") {
+                $file_path = __DIR__ . '/img/avatars/';
+                $file_url = 'img/avatars/' . $file_name;
+                move_uploaded_file($_FILES[$field_form]['tmp_name'], $file_path . $file_name);
+                $result['url'] = $file_url;
+            } else {
+                $file_path = __DIR__ . '/img/';
+                $file_url = 'img/' . $file_name;
+                move_uploaded_file($_FILES[$field_form]['tmp_name'], $file_path . $file_name);
+                $result['url'] = $file_url;
+            }
         }
     }
 
@@ -109,6 +116,28 @@ function file_validation() {
 function login_validation() {
     $errors = [];
     $empty_field = ['email', 'password'];
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        foreach ($empty_field as $value_field) {
+            if ($_POST[$value_field] == '') {
+                $errors[] = $value_field;
+            }
+        }
+
+        if (!in_array('email', $errors)) {
+            if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $errors[] = 'error_mail_validation';
+            }
+        }
+    }
+
+    return $errors;
+}
+
+function registration_validation() {
+    $errors = [];
+    $empty_field = ['email', 'password', 'name', 'message'];
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 

@@ -33,4 +33,4 @@ if (!$link) {
 //exec_query($link, 'DELETE FROM user WHERE id > ?;', [3]);
 
 
-
+$categories = select_data($link, 'SELECT category_name FROM categories;', '');
