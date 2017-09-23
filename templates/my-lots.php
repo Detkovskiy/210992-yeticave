@@ -28,12 +28,12 @@
         <tr class="rates__item">
             <td class="rates__info">
                 <div class="rates__img">
-                    <img src="<?=$array_lots[$value['lot_id']]['url']; ?>" width="54" height="40" alt="Сноуборд">
+                    <img src="<?=$all_lots[$value['lot_id'] - '1']['image']; ?>" width="54" height="40" alt="Сноуборд">
                 </div>
-                <h3 class="rates__title"><a href="lot.php?id=<?= $value['lot_id']; ?>"><?=$array_lots[$value['lot_id']]['title']; ?></a></h3>
+                <h3 class="rates__title"><a href="lot.php?id=<?= $value['lot_id']; ?>"><?=$all_lots[$value['lot_id'] - '1']['lot_name']; ?></a></h3>
             </td>
             <td class="rates__category">
-                <?=$array_lots[$value['lot_id']]['category']; ?>
+                <?=$all_lots[$value['lot_id'] - '1']['category_name']; ?>
             </td>
             <td class="rates__timer">
                 <div class="timer timer--finishing"><?=$lot_time_remaining_sec; ?></div>
@@ -46,6 +46,7 @@
             </td>
         </tr>
         <?php endforeach;?>
+        <?php /*print_r($_SESSION['user']); */?>
     </table>
 </section>
 

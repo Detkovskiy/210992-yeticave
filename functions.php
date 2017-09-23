@@ -140,12 +140,19 @@ function search_user_email($email, $users) {
     return $result;
 }
 
-function cost_validation() {
-    $errors = null;
+function cost_validation($min_bet) {
+    $errors = [];
+
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($_POST['cost'] == '') {
-            $errors = 1;
+            $errors[] = 'empty';
+        }
+        if (!is_numeric($_POST['cost']))  {
+            $errors[] = 'no_numeric';
+        }
+        if ($_POST['cost'] < $min_bet) {
+            $errors[] = 'no_min_bet';
         }
     }
 
@@ -168,8 +175,7 @@ function find_bets($array) {
 function select_data($link, $sql, $data) {
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     mysqli_stmt_execute($stmt);
-    $aw = mysqli_stmt_get_result($stmt);
-    $result = mysqli_fetch_all($aw, MYSQLI_ASSOC);
+    $result = mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
 
     return $result;
 }
