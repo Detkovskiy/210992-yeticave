@@ -20,7 +20,6 @@ $count_bets = count($array_bets);
 $my_lots = [];
 $check_bets = false;
 
-
 if(isset($_SESSION['my_lots']) && $_SESSION['my_lots']) {
     $my_lots = json_decode($_SESSION['my_lots'], true);
     $check_bets = find_bets($my_lots);
@@ -34,7 +33,6 @@ if (isset($_GET['id']) && !($current_lot['id'] == $id)) {
     $content = "Такой страницы не существует (ошибка 404)";
 } else {
     $main = '';
-    //$current_lot = $array_lots;
     $content = render_template('templates/lot.php',
         [
             'current_lot' => $current_lot,
@@ -59,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors)) {
     $my_lots[] = $my_lot;
 
     $_SESSION['my_lots'] = json_encode($my_lots);
-
-    //insert_data($link, 'bet', ['lot_id' => $_GET['id'], 'user_price' => $_POST['cost']]);
+    $time_bet = date("y.m.d H:i", strtotime('now'));
+    insert_data($link, 'bet', ['user_id' => $_SESSION['user']['id'], 'lot_id' => $_GET['id'], 'user_price' => $_POST['cost'], 'date' => $time_bet]);
 
     header("Location: my-lots.php");
 

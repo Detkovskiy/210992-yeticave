@@ -2,16 +2,17 @@
 session_start();
 $title = "Вход";
 
-require_once 'functions.php';
+require_once 'init.php';
 $errors = [];
 $validation_errors = login_validation();
 
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors)) {
 
-    require_once 'userdata.php';
-
     $email = $_POST['email'];
     $password = $_POST['password'];
+
+    $sql_user = 'SELECT id, email, password, name, avatar FROM user;';
+    $users = select_data($link, $sql_user, '');
 
     if ($user = search_user_email($email, $users)) {
 
