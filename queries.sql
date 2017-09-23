@@ -62,3 +62,4 @@ WHERE id = 1;
 SELECT * FROM bet
 WHERE lot_id = 1 ORDER BY date DESC;
 
+

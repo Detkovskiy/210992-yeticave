@@ -59,6 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors)) {
     $_SESSION['my_lots'] = json_encode($my_lots);
     $time_bet = date("y.m.d H:i", strtotime('now'));
     insert_data($link, 'bet', ['user_id' => $_SESSION['user']['id'], 'lot_id' => $_GET['id'], 'user_price' => $_POST['cost'], 'date' => $time_bet]);
+    /*$ass = $_POST['cost'];
+    $sql = 'UPDATE lots SET cost = $ass WHERE id = 4;';
+    exec_query($link, $sql, '');*/
 
     header("Location: my-lots.php");
 
