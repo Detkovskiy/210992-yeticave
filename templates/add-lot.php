@@ -10,8 +10,8 @@
             <label for="category">Категория</label>
             <select id="category" name="category">
                 <option value="" selected>Выберите категорию</option>
-                <?php foreach ($categories as $categories): ?>
-                    <option value="<?= $categories; ?>" <?= $_POST['category'] == $categories ? 'selected' : '' ?>><?= $categories; ?></option>
+                <?php foreach ($categories as $key => $value): ?>
+                    <option value="<?= $value['category_name']; ?>" <?= $_POST['category'] == $value['category_name'] ? 'selected' : '' ?>><?= $value['category_name']; ?></option>
                 <?php endforeach; ?>
             </select>
             <span class="form__error"><?= in_array('category', $validation_errors) ? $text_error_empty_field : ''; ?></span>

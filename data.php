@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 $user_avatar = 'img/user.jpg';
 $user_name = 'Констатнтин';
 
@@ -16,18 +16,18 @@ $now = strtotime('now');
 $lot_time_remaining = date("H : i", (($tomorrow - $now) - 10800));
 $lot_time_remaining_sec = date("H:i:s", (($tomorrow - $now) - 10800));
 
-$bets = [
+/*$bets = [
     ['name' => 'Иван', 'price' => 11500, 'ts' => strtotime('-' . rand(1, 50) .' minute')],
     ['name' => 'Константин', 'price' => 11000, 'ts' => strtotime('-' . rand(1, 18) .' hour')],
     ['name' => 'Евгений', 'price' => 10500, 'ts' => strtotime('-' . rand(25, 50) .' hour')],
     ['name' => 'Семён', 'price' => 10000, 'ts' => strtotime('last week')]
-];
+];*/
 
 // массив с категориями товаров
-$categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
+//$categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
 
 // массив с объявлениями
-$array_lots = [
+/*$array_lots = [
     [
         'title' => '2014 Rossignol District Snowboard',
         'category' => $categories[0],
@@ -64,7 +64,7 @@ $array_lots = [
         'price' => '5400',
         'url' => 'img/lot-6.jpg'
     ]
-];
+];*/
 
 $text_error_empty_field = 'Заполните это поле';
 $text_error_numeric_field = 'Вводить только цифры, больше нуля';

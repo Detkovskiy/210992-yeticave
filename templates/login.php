@@ -21,7 +21,7 @@
     </ul>
   </nav>
   <form class="form container <?= !empty($validation_errors) ? 'form--invalid' : '' ?>" action="login.php" method="post">
-    <h2>Вход</h2>
+    <h2><?= !empty($login_tittle) ? $login_tittle : 'Вход' ;?></h2>
     <div class="form__item <?= in_array('email', $validation_errors) || in_array('error_mail_validation', $validation_errors) ? 'form__item--invalid' : ''; ?>">
       <label for="email">E-mail*</label>
       <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $_POST['email'] ?? ''; ?>">
