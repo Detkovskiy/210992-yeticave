@@ -12,6 +12,14 @@ function render_template($file_template, $data) {
     }
 }
 
+function lot_time_remaining($date_time) {
+    $time_now = strtotime('now');
+    $ts = strtotime($date_time);
+    $time_difference = $ts - $time_now;
+    return date("H : i", $time_difference);
+}
+
+
 function format_time($date_time) {
     $time_now = strtotime('now');
     $ts = strtotime($date_time);

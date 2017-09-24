@@ -44,7 +44,7 @@
         <?php if (isset($_SESSION['user']) and !$check_bets): ?>
         <div class="lot-item__state">
             <div class="lot-item__timer timer">
-                <?= $lot_time_remaining; ?>
+                <?= lot_time_remaining($current_lot['data_end']); ?>
             </div>
             <div class="lot-item__cost-state">
                 <div class="lot-item__rate">
