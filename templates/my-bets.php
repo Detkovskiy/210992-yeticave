@@ -22,7 +22,6 @@
 </nav>
 <section class="rates container">
     <h2>Мои ставки</h2>
-    <?php /*print_r($my_lots); */?>
     <table class="rates__list">
         <?php foreach ($all_bets as $bet => $value):?>
         <tr class="rates__item">
@@ -36,13 +35,13 @@
                 <?=$value['category_name']; ?>
             </td>
             <td class="rates__timer">
-                <div class="timer timer--finishing"><?/*=$lot_time_remaining_sec; */?></div>
+                <div class="timer timer--finishing"><?= lot_time_remaining($value['data_end']); ?></div>
             </td>
             <td class="rates__price">
               <?=$value['user_price']; ?> р
             </td>
             <td class="rates__time">
-                <?=time_bet($value['time_now'])?>
+                <?=format_time($value['date'])?>
             </td>
         </tr>
         <?php endforeach;?>

@@ -41,7 +41,7 @@
         <?php endif; ?>
     </div>
     <div class="lot-item__right">
-        <?php if (isset($_SESSION['user']) and !$check_bets): ?>
+        <?php if (isset($_SESSION['user']) and !$check_bet): ?>
         <div class="lot-item__state">
             <div class="lot-item__timer timer">
                 <?= lot_time_remaining($current_lot['data_end']); ?>
@@ -52,13 +52,13 @@
                     <span class="lot-item__cost"><?= $current_lot['cost']; ?></span>
                 </div>
                 <div class="lot-item__min-cost">
-                    Мин. ставка <span><?= $current_lot['min_bet']; ?> р</span>
+                    Мин. ставка <span><?= $min_bet['price']; ?> р</span>
                 </div>
             </div>
             <form class="lot-item__form" action="lot.php?id=<?=$_GET['id'];?>" method="post">
-                <p class="lot-item__form-item <?= in_array('empty', $validation_errors) || in_array('no_numeric', $validation_errors) || in_array('no_min_bet', $validation_errors) ? 'form__item--invalid' : '';?>">
+                <p class="lot-item__form-item <?= in_array('empty', $validation_errors) || in_array('no_numeric', $validation_errors) || in_array('no_first_bet', $validation_errors) ? 'form__item--invalid' : '';?>">
                     <label for="cost">Ваша ставка</label>
-                    <input id="cost" type="text" name="cost" placeholder="<?= $current_lot['min_bet']; ?>" >
+                    <input id="cost" type="text" name="cost" placeholder="<?= $min_bet['price']; ?>" >
                 </p>
                 <button type="submit" class="button">Сделать ставку</button>
             </form>

@@ -19,32 +19,11 @@ function lot_time_remaining($date_time) {
     return date("H : i", $time_difference);
 }
 
-
 function format_time($date_time) {
-    $time_now = strtotime('now');
     $ts = strtotime($date_time);
-    $time_location = 60 * 60 * 3;
-    $time_difference = $time_now - $ts - $time_location;
-    $one_day = 60 * 60 * 24;
-    $one_hour = 60 * 60;
-
-    switch ($time_difference) {
-        case $time_difference > $one_day:
-            return date("d.m.y в H:i", $ts);
-            break;
-        case $time_difference >= $one_hour:
-            return date("G часов назад", $ts);
-            break;
-        default:
-            return date("i минут назад", $ts);
-            break;
-    }
-}
-
-function time_bet($ts) {
     $time_now = strtotime('now');
-    $one_day = strtotime('-1 hour');
-    $one_hour = strtotime('-1 day');
+    $one_hour = strtotime('-1 hour');
+    $one_day = strtotime('-1 day');
     $time_difference = $time_now - $ts;
 
     switch ($ts) {
@@ -178,7 +157,7 @@ function search_user_email($email, $users) {
     return $result;
 }
 
-function cost_validation($min_bet) {
+function cost_validation($first_bet) {
     $errors = [];
 
 
@@ -189,19 +168,19 @@ function cost_validation($min_bet) {
         if (!is_numeric($_POST['cost']))  {
             $errors[] = 'no_numeric';
         }
-        if ($_POST['cost'] < $min_bet) {
-            $errors[] = 'no_min_bet';
+        if ($_POST['cost'] < $first_bet) {
+            $errors[] = 'no_first_bet';
         }
     }
 
     return $errors;
 }
 
-function find_bets($array) {
+function find_bet($array) {
     $result = false;
 
-    foreach ($array as $lots) {
-        if ($lots['lot_id'] === $_GET['id']) {
+    foreach ($array as $bet) {
+        if ($bet['user_id'] === $_SESSION['user']['id']) {
             $result = true;
             break;
         }

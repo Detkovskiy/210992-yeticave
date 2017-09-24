@@ -1,14 +1,15 @@
 <?php
 session_start();
 
+$tittle = 'Мои ставки';
+
 require_once 'config.php';
 require_once 'init.php';
 
 if(isset($_SESSION['user'])) {
-   // $my_lots = json_decode($_SESSION['my_lots'], true);
 
     $sql_all_my_bet = '
-      SELECT l.id, lot_name, image, category_name, user_price
+      SELECT l.id, lot_name, image, category_name, user_price, data_end, b.date
       FROM lots l
       LEFT JOIN categories c ON l.category_id = c.id
       LEFT JOIN bet b ON b.lot_id = l.id
@@ -18,16 +19,14 @@ if(isset($_SESSION['user'])) {
 
     $content = render_template('templates/my-bets.php',
         [
-            //'my_lots' => $my_lots,
             'all_bets' => $all_bets
-            //'lot_time_remaining_sec' => $lot_time_remaining_sec
         ]);
 
     $layout = render_template('templates/layout.php',
         [
-            'title' => 'Мои ставки',
+            'title' => $tittle,
             'content' => $content,
-            'user_avatar' => $user_avatar,
+            'user_avatar' => $user_avatar
         ]);
 
     print $layout;
