@@ -1,4 +1,5 @@
 <?php
+require_once 'mysql_helper.php';
 
 function render_template($file_template, $data) {
     if (file_exists($file_template)) {
@@ -161,5 +162,50 @@ function find_bets($array) {
         }
     }
 
+    return $result;
+}
+
+function select_data($link, $sql, $data) {
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
+
+    return $result;
+}
+
+function insert_data($link, $tables, $data) {
+
+    function get_field($data) {
+        $keys_arr = [];
+
+        foreach ($data as $key => $value) {
+            $keys_arr[] = $key;
+        }
+        $keys = implode(", ", $keys_arr);
+
+        return $keys;
+    }
+
+    function get_values_field($data) {
+        $values_arr = [];
+
+        foreach ($data as $key) {
+            $values_arr[] = '?';
+        }
+        $values = implode(",", $values_arr);
+
+        return $values;
+    }
+
+    $sql = "INSERT INTO $tables (" . get_field($data) . ") VALUES (" . get_values_field($data) . ")";
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    $result = mysqli_stmt_execute($stmt);
+    $last_id = mysqli_insert_id($link);
+    return $result && !empty($last_id) ? $last_id : false;
+}
+
+function exec_query($link, $sql, $data) {
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    $result = mysqli_stmt_execute($stmt) ? true : false;
     return $result;
 }

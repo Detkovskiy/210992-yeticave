@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Yura
- * Date: 18.09.17
- * Time: 15:17
- */
 
 require_once 'functions.php';
 
@@ -20,5 +14,12 @@ if (!$link) {
     print $content;
     exit;
 } else {
-    print_r('Подключение успешно!');
+    print_r('Подключение успешно!' . '<br>');
+    print_r(select_data($link, 'SELECT email FROM USER WHERE id = ?;', [2]));
+
 }
+
+//insert_data($link, 'user', ['email' => '1@bca.ru', 'name' => '111']);
+
+
+//exec_query($link, 'DELETE FROM user WHERE id > ?;', [3]);
