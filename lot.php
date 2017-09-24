@@ -6,7 +6,7 @@ require_once 'data.php';
 require_once 'init.php';
 
 if (isset($_GET['id'])) {
-    $id = $_SESSION['id'] = $_GET['id'];
+    /*$id =*/ $_SESSION['id'] = $_GET['id'];
 }
 
 $sql_lots = 'SELECT l.id, lot_name, cost, image, description, category_name, l.cost + l.cost_range AS \'min_bet\' FROM lots l LEFT JOIN categories c ON category_id = c.id LEFT JOIN bet b ON b.lot_id = l.id WHERE l.id = ?;';
@@ -36,7 +36,7 @@ if (isset($_GET['id']) && !($current_lot['id'] == $id)) {
     $content = render_template('templates/lot.php',
         [
             'current_lot' => $current_lot,
-            'id' => $id,
+           // 'id' => $id,
             'array_bets' => $array_bets,
             'count_bets' => $count_bets,
             'lot_time_remaining' => $lot_time_remaining,
@@ -57,11 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors)) {
     $my_lots[] = $my_lot;
 
     $_SESSION['my_lots'] = json_encode($my_lots);
-    $time_bet = date("y.m.d H:i", strtotime('now'));
-    insert_data($link, 'bet', ['user_id' => $_SESSION['user']['id'], 'lot_id' => $_GET['id'], 'user_price' => $_POST['cost'], 'date' => $time_bet]);
-    /*$ass = $_POST['cost'];
-    $sql = 'UPDATE lots SET cost = $ass WHERE id = 4;';
-    exec_query($link, $sql, '');*/
+
+    insert_data($link, 'bet', ['user_id' => $_SESSION['user']['id'], 'lot_id' => $_GET['id'], 'user_price' => $_POST['cost']]);
+
 
     header("Location: my-lots.php");
 

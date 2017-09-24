@@ -22,7 +22,13 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' &&
 
     if (!search_user_email($email, $email_users)) {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        insert_data($link, 'user', ['date_reg' => $time_reg, 'email' => $email, 'name' => $name, 'password' => $password_hash, 'contact' => $message, 'avatar' => $validation_file['url']]);
+
+        if (isset($validation_file['url'])) {
+            insert_data($link, 'user', ['date_reg' => $time_reg, 'email' => $email, 'name' => $name, 'password' => $password_hash, 'contact' => $message, 'avatar' => $validation_file['url']]);
+        } else {
+            insert_data($link, 'user', ['date_reg' => $time_reg, 'email' => $email, 'name' => $name, 'password' => $password_hash, 'contact' => $message]);
+        }
+
 
         $content = render_template('templates/login.php',
 

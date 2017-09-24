@@ -12,8 +12,9 @@ function render_template($file_template, $data) {
     }
 }
 
-function format_time($ts) {
+function format_time($date_time) {
     $time_now = strtotime('now');
+    $ts = strtotime($date_time);
     $time_location = 60 * 60 * 3;
     $time_difference = $time_now - $ts - $time_location;
     $one_day = 60 * 60 * 24;
@@ -78,9 +79,9 @@ function validation() {
 
 function file_validation($field_form) {
     $mime_type = ['image/png', 'image/jpeg'];
-    $result = [];
+    $result['error'] = '';
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES[$field_form])) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES[$field_form]) && ($_FILES[$field_form]['size'] > 0)) {
         $file_tmp_name = $_FILES[$field_form]['tmp_name'];
         $file_size = $_FILES[$field_form]['size'];
         $file_type = mime_content_type($file_tmp_name);
@@ -209,7 +210,7 @@ function select_data($link, $sql, $data) {
     return $result;
 }
 
-function insert_data($link, $tables, $data) {
+function insert_data($link, $table, $data) {
 
     function get_field($data) {
         $keys_arr = [];
@@ -233,7 +234,7 @@ function insert_data($link, $tables, $data) {
         return $values;
     }
 
-    $sql = "INSERT INTO $tables (" . get_field($data) . ") VALUES (" . get_values_field($data) . ")";
+    $sql = "INSERT INTO $table (" . get_field($data) . ") VALUES (" . get_values_field($data) . ")";
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     $result = mysqli_stmt_execute($stmt);
     $last_id = mysqli_insert_id($link);
