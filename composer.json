@@ -3,6 +3,7 @@
     "description": "site auction",
     "type": "project",
     "require": {
-        "rakit/validation": "^0.13.0"
+        "rakit/validation": "^0.13.0",
+        "swiftmailer/swiftmailer": "^6.0"
     }
 }
