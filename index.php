@@ -5,6 +5,7 @@ $title = "Главная";
 
 require_once 'config.php';
 require_once 'init.php';
+require_once 'getwinner.php';
 
 $current_page = $_GET['page'] ?? 1;
 $page_item = 3;
