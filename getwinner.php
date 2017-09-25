@@ -1,6 +1,6 @@
 <?php
 
-$sql_id_lots = 'SELECT id FROM lots WHERE data_end <= NOW() AND winner_id is null;';
+$sql_id_lots = 'SELECT id FROM lots WHERE data_end <= NOW() AND winner_id is null;'; // проверка
 $id_lots = select_data($link, $sql_id_lots, '');
 
 $sql_max_bet = '
@@ -20,28 +20,45 @@ foreach ($id_lots as $lot => $value) {
 
         exec_query($link, 'UPDATE lots SET winner_id = ? WHERE id = ?;', [$key['id'], $key['lot_id']]);
 
-        $content = render_template('templates/email.php',
-            [
-                'name' => $key['name'],
-                'email' => $key['email'],
-                'lot_name' => $key['lot_name'],
-                'my_bets' => 'http://localhost:8888/210992-yeticave/my-bets.php',
-                'lot_url' => 'http://localhost:8888/210992-yeticave/lot.php?id=' . $key['lot_id']
-            ]);
-
-        $transport = (new Swift_SmtpTransport('smtp.mail.ru', 465))
-            ->setUsername('doingsdone@mail.ru')
-            ->setPassword('rds7BgcL');
-
-        $mailer = new Swift_Mailer($transport);
-
-        $message = (new Swift_Message('Ваша ставка победила!!!'))
-            ->setFrom('doingsdone@mail.ru')
-            ->setTo([/*$key['email']*/ '9119113142@mail.ru' => $key['name']])
-            ->setBody($content,
-                'text/html');
-
-        $result = $mailer->send($message);
     }
 }
+
+$transport = (new Swift_SmtpTransport('smtp.mail.ru', 465))
+    ->setUsername('doingsdone@mail.ru')
+    ->setPassword('rds7BgcL')
+    ->setEncryption('ssl');
+
+$mailer = new Swift_Mailer($transport);
+
+foreach ($data_winner as $winner) {
+
+    $content = render_template('templates/email.php',
+        [
+            'name' => $winner['name'],
+            'email' => $winner['email'],
+            'lot_name' => $winner['lot_name'],
+            'my_bets' => 'http://localhost:8888/210992-yeticave/my-bets.php',
+            'lot_url' => 'http://localhost:8888/210992-yeticave/lot.php?id=' . $winner['lot_id']
+        ]);
+
+    $message = (new Swift_Message('Ваша ставка победила!!!'))
+        ->setFrom('doingsdone@mail.ru')
+        ->setTo([$winner['email'] => $winner['name']])
+        ->setBody($content,
+            'text/html');
+
+    $result = $mailer->send($message);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
