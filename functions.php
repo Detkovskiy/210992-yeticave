@@ -158,9 +158,8 @@ function search_user_email($email, $users) {
     return $result;
 }
 
-function cost_validation($first_bet) {
+function cost_validation($bet) {
     $errors = [];
-
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($_POST['cost'] == '') {
@@ -169,7 +168,7 @@ function cost_validation($first_bet) {
         if (!is_numeric($_POST['cost']))  {
             $errors[] = 'no_numeric';
         }
-        if ($_POST['cost'] < $first_bet) {
+        if ($_POST['cost'] < $bet) {
             $errors[] = 'no_first_bet';
         }
     }
@@ -197,37 +196,6 @@ function select_data($link, $sql, $data) {
 
     return $result;
 }
-
-/*function insert_data($link, $table, $data) {
-
-    function get_field($data) {
-        $keys_arr = [];
-
-        foreach ($data as $key => $value) {
-            $keys_arr[] = $key;
-        }
-        $keys = implode(", ", $keys_arr);
-
-        return $keys;
-    }
-
-    function get_values_field($data) {
-        $values_arr = [];
-
-        foreach ($data as $key) {
-            $values_arr[] = '?';
-        }
-        $values = implode(",", $values_arr);
-
-        return $values;
-    }
-
-    $sql = "INSERT INTO $table (" . get_field($data) . ") VALUES (" . get_values_field($data) . ")";
-    $stmt = db_get_prepare_stmt($link, $sql, $data);
-    $result = mysqli_stmt_execute($stmt);
-    $last_id = mysqli_insert_id($link);
-    return $result && !empty($last_id) ? $last_id : false;
-}*/
 
 function insert_data($link, $table, $data) {
     $keys_arr = array_keys($data);
