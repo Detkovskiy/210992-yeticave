@@ -1,6 +1,8 @@
 {
-    "name": "yeticave",
-    "description": "Личный проект «YetiCave» от HTML Academy",
+    "name": "yuriy/yeticave",
+    "description": "site auction",
     "type": "project",
-    "require": {}
+    "require": {
+        "rakit/validation": "^0.13.0"
+    }
 }

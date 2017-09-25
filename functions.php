@@ -1,5 +1,6 @@
 <?php
 require_once 'mysql_helper.php';
+require_once 'vendor/autoload.php';
 
 function render_template($file_template, $data) {
     if (file_exists($file_template)) {
