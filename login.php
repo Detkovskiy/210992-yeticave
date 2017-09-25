@@ -3,47 +3,48 @@ session_start();
 $title = "Вход";
 
 require_once 'init.php';
+
+$validation_errors = [];
 $errors = [];
-$validation_errors = login_validation();
 
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && empty($validation_errors)) {
+if (isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $validation_errors = login_validation();
 
-    $sql_user = 'SELECT id, email, password, name, avatar FROM user;';
-    $users = select_data($link, $sql_user, '');
+    if (empty($validation_errors)) {
 
-    if ($user = search_user_email($email, $users)) {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-        if (password_verify($password, $user['password'])) {
+        $sql_user = 'SELECT id, email, password, name, avatar FROM user;';
+        $users = select_data($link, $sql_user, '');
 
-            $_SESSION['user'] = $user;
-            header("Location: index.php");
+        if ($user = search_user_email($email, $users)) {
 
-        } else {
+            if (password_verify($password, $user['password'])) {
 
-            $errors[] = 'no_valid_password';
-            $content = render_template('templates/login.php',
+                $_SESSION['user'] = $user;
+                header("Location: index.php");
 
-                [
-                    'errors' => $errors
-                ]);
+            } else {
+
+                $errors[] = 'no_valid_password';
+
+            }
         }
     }
-} else {
-    $content = render_template('templates/login.php',
-        [
-            'validation_errors' => $validation_errors,
-            'errors' => $errors
-        ]);
 }
+
+$content = render_template('templates/login.php',
+    [
+        'validation_errors' => $validation_errors,
+        'errors' => $errors
+    ]);
 
 $layout = render_template('templates/layout.php',
     [
         'title' => $title,
-        'content' => $content,
-        'main' => ''
+        'content' => $content
     ]);
 
 print $layout;

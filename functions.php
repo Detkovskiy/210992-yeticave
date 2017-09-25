@@ -151,6 +151,7 @@ function search_user_email($email, $users) {
     foreach ($users as $user) {
         if ($user['email'] == $email) {
             $result = $user;
+            break;
         }
     }
 
@@ -197,7 +198,7 @@ function select_data($link, $sql, $data) {
     return $result;
 }
 
-function insert_data($link, $table, $data) {
+/*function insert_data($link, $table, $data) {
 
     function get_field($data) {
         $keys_arr = [];
@@ -222,6 +223,24 @@ function insert_data($link, $table, $data) {
     }
 
     $sql = "INSERT INTO $table (" . get_field($data) . ") VALUES (" . get_values_field($data) . ")";
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    $result = mysqli_stmt_execute($stmt);
+    $last_id = mysqli_insert_id($link);
+    return $result && !empty($last_id) ? $last_id : false;
+}*/
+
+function insert_data($link, $table, $data) {
+    $keys_arr = array_keys($data);
+    $keys = implode(", ", $keys_arr);
+
+    $values_arr = array_values($data);
+    $placeholder = [];
+    foreach ($values_arr as $key) {
+        $placeholder[] = '?';
+        }
+    $values = implode(", ", $placeholder);
+
+    $sql = "INSERT INTO $table ($keys) VALUES ($values)";
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     $result = mysqli_stmt_execute($stmt);
     $last_id = mysqli_insert_id($link);
