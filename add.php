@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'data.php';
+require_once 'config.php';
 require_once 'init.php';
 
 $title = "Добавление лота";

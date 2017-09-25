@@ -1,5 +1,6 @@
 <?php
 require_once 'mysql_helper.php';
+require_once 'vendor/autoload.php';
 
 function render_template($file_template, $data) {
     if (file_exists($file_template)) {
@@ -12,31 +13,18 @@ function render_template($file_template, $data) {
     }
 }
 
-function format_time($date_time) {
+function lot_time_remaining($date_time) {
     $time_now = strtotime('now');
     $ts = strtotime($date_time);
-    $time_location = 60 * 60 * 3;
-    $time_difference = $time_now - $ts - $time_location;
-    $one_day = 60 * 60 * 24;
-    $one_hour = 60 * 60;
-
-    switch ($time_difference) {
-        case $time_difference > $one_day:
-            return date("d.m.y в H:i", $ts);
-            break;
-        case $time_difference >= $one_hour:
-            return date("G часов назад", $ts);
-            break;
-        default:
-            return date("i минут назад", $ts);
-            break;
-    }
+    $time_difference = $ts - $time_now;
+    return date("H : i", $time_difference);
 }
 
-function time_bet($ts) {
+function format_time($date_time) {
+    $ts = strtotime($date_time);
     $time_now = strtotime('now');
-    $one_day = strtotime('-1 hour');
-    $one_hour = strtotime('-1 day');
+    $one_hour = strtotime('-1 hour');
+    $one_day = strtotime('-1 day');
     $time_difference = $time_now - $ts;
 
     switch ($ts) {
@@ -164,15 +152,15 @@ function search_user_email($email, $users) {
     foreach ($users as $user) {
         if ($user['email'] == $email) {
             $result = $user;
+            break;
         }
     }
 
     return $result;
 }
 
-function cost_validation($min_bet) {
+function cost_validation($bet) {
     $errors = [];
-
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($_POST['cost'] == '') {
@@ -181,19 +169,19 @@ function cost_validation($min_bet) {
         if (!is_numeric($_POST['cost']))  {
             $errors[] = 'no_numeric';
         }
-        if ($_POST['cost'] < $min_bet) {
-            $errors[] = 'no_min_bet';
+        if ($_POST['cost'] < $bet) {
+            $errors[] = 'no_first_bet';
         }
     }
 
     return $errors;
 }
 
-function find_bets($array) {
+function find_bet($array) {
     $result = false;
 
-    foreach ($array as $lots) {
-        if ($lots['lot_id'] === $_GET['id']) {
+    foreach ($array as $bet) {
+        if ($bet['user_id'] === $_SESSION['user']['id']) {
             $result = true;
             break;
         }
@@ -211,30 +199,17 @@ function select_data($link, $sql, $data) {
 }
 
 function insert_data($link, $table, $data) {
+    $keys_arr = array_keys($data);
+    $keys = implode(", ", $keys_arr);
 
-    function get_field($data) {
-        $keys_arr = [];
-
-        foreach ($data as $key => $value) {
-            $keys_arr[] = $key;
+    $values_arr = array_values($data);
+    $placeholder = [];
+    foreach ($values_arr as $key) {
+        $placeholder[] = '?';
         }
-        $keys = implode(", ", $keys_arr);
+    $values = implode(", ", $placeholder);
 
-        return $keys;
-    }
-
-    function get_values_field($data) {
-        $values_arr = [];
-
-        foreach ($data as $key) {
-            $values_arr[] = '?';
-        }
-        $values = implode(",", $values_arr);
-
-        return $values;
-    }
-
-    $sql = "INSERT INTO $table (" . get_field($data) . ") VALUES (" . get_values_field($data) . ")";
+    $sql = "INSERT INTO $table ($keys) VALUES ($values)";
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     $result = mysqli_stmt_execute($stmt);
     $last_id = mysqli_insert_id($link);

@@ -47,7 +47,7 @@
                             <span class="lot__cost"><?= htmlspecialchars($lot['cost']); ?><b class="rub">р</b></span>
                         </div>
                         <div class="lot__timer timer">
-                            <?= $lot_time_remaining; ?>
+                            <?= lot_time_remaining($lot['data_end']); ?>
                         </div>
                     </div>
                 </div>
@@ -55,3 +55,15 @@
         <?php endforeach; ?>
     </ul>
 </section>
+<?php if ($page_count > 1) : ?>
+<ul class="pagination-list">
+    <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
+    <?php foreach ($pages as $page) : ?>
+        <li class="pagination-item <?= ($page == $current_page) ? 'pagination-item-active' : '' ;?> ">
+            <a href="index.php?page=<?= $page; ?>"><?= $page; ?></a>
+        </li>
+        <?php endforeach; ?>
+
+    <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
+</ul>
+<?php endif; ?>

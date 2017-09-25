@@ -3,6 +3,8 @@ CREATE DATABASE yeticave
   DEFAULT COLLATE utf8_general_ci;
 USE yeticave;
 
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
 CREATE TABLE categories(
   id INT AUTO_INCREMENT PRIMARY KEY,
   category_name CHAR(100)
