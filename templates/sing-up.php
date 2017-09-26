@@ -22,7 +22,7 @@
 </nav>
 <form class="form container <?= !empty($validation_errors) ? 'form--invalid' : '' ?>" action="sing-up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
     <h2><?= !empty($error_insert_bd) ? $error_insert_bd : 'Регистрация нового аккаунта' ;?></h2>
-    <div class="form__item <?= in_array('error_mail_validation', $validation_errors) || in_array('email', $validation_errors) || in_array('double_email', $errors) ? 'form__item--invalid' : ''; ?>"> <!-- form__item--invalid -->
+    <div class="form__item <?= in_array('email', $validation_errors) || in_array('error_mail_validation', $validation_errors) || in_array('double_email', $errors) ? 'form__item--invalid' : ''; ?>"> <!-- form__item--invalid -->
         <label for="email">E-mail*</label>
         <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $_POST['email'] ?? ''; ?>">
         <span class="form__error"><?= in_array('email', $validation_errors) || in_array('error_mail_validation', $validation_errors) ? 'Введите email' : (in_array('double_email', $errors) ? 'Пользователь с таким email уже зарегистрирован' : ''); ?></span>

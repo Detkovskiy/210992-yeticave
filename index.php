@@ -8,7 +8,7 @@ require_once 'init.php';
 require_once 'getwinner.php';
 
 $current_page = $_GET['page'] ?? 1;
-$page_item = 3;
+$page_item = 1;
 
 $sql_count_lots = 'SELECT count(*) as count FROM lots;';
 $count_lots = select_data($link, $sql_count_lots, '')[0];

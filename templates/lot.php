@@ -21,16 +21,16 @@
     </ul>
 </nav>
 <section class="lot-item container">
-    <h2><?= $current_lot['lot_name']; ?></h2>
+    <h2><?= htmlspecialchars($current_lot['lot_name']); ?></h2>
 <div class="lot-item__content">
     <div class="lot-item__left">
         <div class="lot-item__image">
             <img src="<?= $current_lot['image']; ?>" width="730" height="548" alt="Сноуборд">
         </div>
-        <p class="lot-item__category">Категория: <span><?= $current_lot['category_name']; ?></span></p>
+        <p class="lot-item__category">Категория: <span><?= htmlspecialchars($current_lot['category_name']); ?></span></p>
         <p class="lot-item__description">
             <?php if (isset($current_lot['description']) && $current_lot['description'] != null): ?>
-                <?= $current_lot['description']; ?>
+                <?= htmlspecialchars($current_lot['description']); ?>
             <?php else: ?>
             Легкий маневренный сноуборд, готовый дать жару в любом парке, растопив снег
             мощным щелчкоми четкими дугами. Стекловолокно Bi-Ax, уложенное в двух направлениях, наделяет этот
