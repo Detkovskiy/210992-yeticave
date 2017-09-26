@@ -1,6 +1,6 @@
 <?php
 
-$sql_id_lots = 'SELECT id FROM lots WHERE data_end <= NOW() AND winner_id is null;'; // проверка
+$sql_id_lots = 'SELECT id FROM lots WHERE data_end <= NOW() AND winner_id is null;';
 $id_lots = select_data($link, $sql_id_lots, '');
 
 $sql_max_bet = '

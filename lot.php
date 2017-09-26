@@ -63,16 +63,18 @@ if (isset($_GET['id'])) {
         $main = true;
         $content = "Такой страницы не существует (ошибка 404)";
     }
+
+    $layout = render_template('templates/layout.php',
+        [
+            'title' => $current_lot['lot_name'],
+            'content' => $content,
+            'user_avatar' => $user_avatar,
+            'main' => $main
+        ]);
+
+    print $layout;
 }
 
-$layout = render_template('templates/layout.php',
-    [
-        'title' => $current_lot['lot_name'],
-        'content' => $content,
-        'user_avatar' => $user_avatar,
-        'main' => $main
-    ]);
 
-print $layout;
 
 

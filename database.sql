@@ -26,12 +26,12 @@ CREATE TABLE `bet` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `lot_id` int(11) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_price` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i_lot_id` (`lot_id`),
   KEY `i_user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +61,7 @@ CREATE TABLE `lots` (
   `user_id` int(11) DEFAULT NULL,
   `winner_id` int(11) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `lot_name` text,
   `description` text,
   `image` text,
@@ -72,7 +72,7 @@ CREATE TABLE `lots` (
   PRIMARY KEY (`id`),
   KEY `i_category_id` (`category_id`),
   KEY `i_lot` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,7 +84,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date_reg` date DEFAULT NULL,
+  `date_reg` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `email` char(100) DEFAULT NULL,
   `name` char(100) DEFAULT NULL,
   `password` char(100) DEFAULT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `email` (`email`),
   KEY `i_user` (`id`),
   KEY `i_email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -106,4 +106,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-16 18:50:58
+-- Dump completed on 2017-09-26 10:43:38
