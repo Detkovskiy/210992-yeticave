@@ -1,4 +1,5 @@
 <?php
+
 require_once 'mysql_helper.php';
 require_once 'vendor/autoload.php';
 
@@ -6,7 +7,7 @@ function render_template($file_template, $data) {
     if (file_exists($file_template)) {
         extract($data);
         ob_start('ob_gzhandler');
-        require_once $file_template;
+        require $file_template;
         return ob_get_clean();
     } else {
         return '';
