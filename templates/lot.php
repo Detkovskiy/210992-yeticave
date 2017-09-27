@@ -1,23 +1,10 @@
 <nav class="nav">
     <ul class="nav__list container">
-        <li class="nav__item">
-            <a href="">Доски и лыжи</a>
-        </li>
-        <li class="nav__item">
-            <a href="">Крепления</a>
-        </li>
-        <li class="nav__item">
-            <a href="">Ботинки</a>
-        </li>
-        <li class="nav__item">
-            <a href="">Одежда</a>
-        </li>
-        <li class="nav__item">
-            <a href="">Инструменты</a>
-        </li>
-        <li class="nav__item">
-            <a href="">Разное</a>
-        </li>
+        <?php foreach ($categories as $value): ?>
+            <li class="nav__item">
+                <a href="all-lots.php?id=<?= $value['id']; ?>"><?= $value['category_name']; ?></a>
+            </li>
+        <?php endforeach; ?>
     </ul>
 </nav>
 <section class="lot-item container">
@@ -27,7 +14,7 @@
         <div class="lot-item__image">
             <img src="<?= $current_lot['image']; ?>" width="730" height="548" alt="Сноуборд">
         </div>
-        <p class="lot-item__category">Категория: <span><?= htmlspecialchars($current_lot['category_name']); ?></span></p>
+        <p class="lot-item__category">Категория: <span><?= $current_lot['category_name']; ?></span></p>
         <p class="lot-item__description">
             <?php if (isset($current_lot['description']) && $current_lot['description'] != null): ?>
                 <?= htmlspecialchars($current_lot['description']); ?>
@@ -41,7 +28,7 @@
         <?php endif; ?>
     </div>
     <div class="lot-item__right">
-        <?php if (isset($_SESSION['user']) and !$check_bet): ?>
+        <?php if (isset($_SESSION['user']) && !$check_bet): ?>
         <div class="lot-item__state">
             <div class="lot-item__timer timer">
                 <?= lot_time_remaining($current_lot['data_end']); ?>
@@ -56,7 +43,7 @@
                 </div>
             </div>
             <form class="lot-item__form" action="lot.php?id=<?=$_GET['id'];?>" method="post">
-                <p class="lot-item__form-item <?= in_array('empty', $validation_errors) || in_array('no_numeric', $validation_errors) || in_array('no_first_bet', $validation_errors) ? 'form__item--invalid' : '';?>">
+                <p class="lot-item__form-item <?= !empty($validation_errors) && (in_array('empty', $validation_errors) || in_array('no_numeric', $validation_errors) || in_array('no_first_bet', $validation_errors)) ? 'form__item--invalid' : '';?>">
                     <label for="cost">Ваша ставка</label>
                     <input id="cost" type="text" name="cost" placeholder="<?= !empty($min_bet['price']) ? $min_bet['price'] : $current_lot['first_bet']; ?>" >
                 </p>

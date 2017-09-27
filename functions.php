@@ -15,10 +15,16 @@ function render_template($file_template, $data) {
 }
 
 function lot_time_remaining($date_time) {
+    $result = false;
     $time_now = strtotime('now');
     $ts = strtotime($date_time);
     $time_difference = $ts - $time_now;
-    return date("H : i", $time_difference);
+    if ($time_difference <= 0) {
+        return $result;
+    } else {
+        $result = date("H : i", $time_difference);
+        return $result;
+    }
 }
 
 function format_time($date_time) {
@@ -103,8 +109,9 @@ function file_validation($field_form) {
     return $result;
 }
 
-function login_validation() {
+function login_validation($link, $email) {
     $errors = [];
+    $user = null;
     $empty_field = ['email', 'password'];
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -122,7 +129,20 @@ function login_validation() {
         }
     }
 
-    return $errors;
+    if (empty($errors)) {
+        $sql_user = '
+          SELECT id, email, password, name, avatar 
+          FROM user
+          WHERE email = ?;';
+
+        if (!$user = select_data($link, $sql_user, [$email])[0]) {
+            $errors[] = 'no_user';
+        }
+    }
+
+    $result = ['errors' => $errors, 'user' => $user];
+
+    return $result;
 }
 
 function registration_validation() {
@@ -145,19 +165,6 @@ function registration_validation() {
     }
 
     return $errors;
-}
-
-function search_user_email($email, $users) {
-    $result = null;
-
-    foreach ($users as $user) {
-        if ($user['email'] == $email) {
-            $result = $user;
-            break;
-        }
-    }
-
-    return $result;
 }
 
 function cost_validation($bet) {

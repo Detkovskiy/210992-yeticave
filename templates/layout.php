@@ -26,7 +26,7 @@
                     <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : $user_avatar; ?>" width="40" height="40" alt="Пользователь">
                 </div>
                 <div class="user-menu__logged">
-                    <p><?= $_SESSION['user']['name'] ?></p>
+                    <p><?= htmlspecialchars($_SESSION['user']['name']); ?></p>
                     <a href="logout.php">Выйти</a>
                 </div>
             <?php else: ?>
@@ -52,7 +52,7 @@
         <ul class="nav__list container">
             <?php foreach ($categories as $value): ?>
                 <li class="nav__item">
-                    <a href="all-lots.html"><?= $value['category_name']; ?></a>
+                    <a href="all-lots.php?id=<?= $value['id']; ?>"><?= $value['category_name']; ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>

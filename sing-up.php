@@ -17,10 +17,9 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_POST['password'];
         $message = $_POST['message'];
 
-        $sql_email_user = 'SELECT email FROM user;';
-        $email_users = select_data($link, $sql_email_user, '');
+        $sql_email_user = 'SELECT id FROM user WHERE email = ?;';
 
-        if (!search_user_email($email, $email_users)) {
+        if (!select_data($link, $sql_email_user, [$_POST['email']])) {
 
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -40,7 +39,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                 $content = render_template('templates/login.php',
 
                     [
-                        'login_tittle' => 'Теперь вы можете войти, используя свой email и пароль'
+                        'login_tittle' => 'Теперь вы можете войти, используя свой email и пароль',
+                        'categories' => $categories
                     ]);
 
             } else {
@@ -58,7 +58,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
             $content = render_template('templates/sing-up.php',
 
                 [
-                    'errors' => $errors
+                    'errors' => $errors,
+                    'categories' => $categories
                 ]);
         }
 
@@ -67,20 +68,22 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $content = render_template('templates/sing-up.php',
             [
                 'validation_errors' => $validation_errors,
-                'validation_file' => $validation_file
+                'validation_file' => $validation_file,
+                'categories' => $categories
             ]);
     }
 
 } else {
 
-    $content = render_template('templates/sing-up.php', ['']);
+    $content = render_template('templates/sing-up.php', ['categories' => $categories]);
 }
 
 $layout = render_template('templates/layout.php',
     [
         'title' => $title,
         'content' => $content,
-        'categories' => $categories
+        'categories' => $categories,
+        'main' => false
     ]);
 
 print $layout;

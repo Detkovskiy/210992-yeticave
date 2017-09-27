@@ -32,12 +32,9 @@ if (isset($_SESSION['user'])) {
                 'data_end' => $_POST['lot-date']
             ];
 
-            insert_data($link, 'lots', $user_add_lot);
+            $lot_id = insert_data($link, 'lots', $user_add_lot) ? mysqli_insert_id($link) : '';
 
-            $user_add_lot['first_bet'] = $_POST['lot-rate'] + $_POST['lot-step'];
-            $user_add_lot['category_name'] = $_POST['category'];
-
-            $content = render_template('templates/lot.php', ['current_lot' => $user_add_lot]);
+            header("Location: lot.php?id=$lot_id");
 
         } else {
 
@@ -45,8 +42,8 @@ if (isset($_SESSION['user'])) {
                 [
                     'validation_errors' => $validation_errors,
                     'text_error_empty_field' => $text_error_empty_field,
-                    'text_error_numeric_field' => $text_error_numeric_field,
                     'categories' => $categories,
+                    'text_error_numeric_field' => $text_error_numeric_field,
                     'validation_file' => $validation_file
                 ]);
         }
@@ -56,7 +53,9 @@ if (isset($_SESSION['user'])) {
         [
             'title' => $title,
             'content' => $content,
-            'user_avatar' => $user_avatar
+            'user_avatar' => $user_avatar,
+            'main' => false,
+            'categories' => $categories
         ]);
 
     print $layout;

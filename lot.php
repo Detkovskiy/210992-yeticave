@@ -34,7 +34,8 @@ if (isset($_GET['id'])) {
     if ($current_lot['id'] == $_GET['id']) {
 
         $validation_errors = [];
-        $check_bet = find_bet($array_bets);
+
+        $check_bet = isset($_SESSION['user']) ? find_bet($array_bets) : '';
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -55,7 +56,8 @@ if (isset($_GET['id'])) {
                 'min_bet' => $min_bet,
                 'count_bets' => $count_bets,
                 'validation_errors' => $validation_errors,
-                'check_bet' => $check_bet
+                'check_bet' => $check_bet,
+                'categories' => $categories
             ]);
 
     } else {
@@ -69,6 +71,7 @@ if (isset($_GET['id'])) {
             'title' => $current_lot['lot_name'],
             'content' => $content,
             'user_avatar' => $user_avatar,
+            'categories' => $categories,
             'main' => $main
         ]);
 

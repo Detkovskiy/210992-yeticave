@@ -1,30 +1,17 @@
 <nav class="nav">
     <ul class="nav__list container">
-        <li class="nav__item">
-            <a href="all-lots.html">Доски и лыжи</a>
-        </li>
-        <li class="nav__item">
-            <a href="all-lots.html">Крепления</a>
-        </li>
-        <li class="nav__item">
-            <a href="all-lots.html">Ботинки</a>
-        </li>
-        <li class="nav__item">
-            <a href="all-lots.html">Одежда</a>
-        </li>
-        <li class="nav__item">
-            <a href="all-lots.html">Инструменты</a>
-        </li>
-        <li class="nav__item">
-            <a href="all-lots.html">Разное</a>
-        </li>
+        <?php foreach ($categories as $value): ?>
+            <li class="nav__item">
+                <a href="all-lots.php?id=<?= $value['id']; ?>"><?= $value['category_name']; ?></a>
+            </li>
+        <?php endforeach; ?>
     </ul>
 </nav>
 <section class="rates container">
     <h2>Мои ставки</h2>
     <table class="rates__list">
         <?php foreach ($all_bets as $bet => $value):?>
-        <tr class="rates__item">
+        <tr class="rates__item <?= lot_time_remaining($value['data_end']) ? '' : (($value['winner_id'] == $_SESSION['user']['id']) ? 'rates__item--win' : 'rates__item--end');?>">
             <td class="rates__info">
                 <div class="rates__img">
                     <img src="<?=$value['image']; ?>" width="54" height="40" alt="Сноуборд">
@@ -35,7 +22,13 @@
                 <?=$value['category_name']; ?>
             </td>
             <td class="rates__timer">
+            <?php if (lot_time_remaining($value['data_end'])): ?>
                 <div class="timer timer--finishing"><?= lot_time_remaining($value['data_end']); ?></div>
+            <?php elseif ($value['winner_id'] == $_SESSION['user']['id']): ?>
+                <div class="timer timer--win">Ставка выиграла</div>
+            <?php else : ?>
+                <div class="timer timer--end">Торги окончены</div>
+            <? endif; ?>
             </td>
             <td class="rates__price">
               <?=$value['user_price']; ?> р

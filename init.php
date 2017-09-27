@@ -20,4 +20,4 @@ if (!$link) {
     exit();
 }
 
-$categories = select_data($link, 'SELECT category_name FROM categories;', '');
+$categories = select_data($link, 'SELECT category_name, id, class FROM categories;', '');
