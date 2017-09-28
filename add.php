@@ -43,7 +43,8 @@ if (isset($_SESSION['user'])) {
                     'validation_errors' => $validation_errors,
                     'text_error_empty_field' => $text_error_empty_field,
                     'text_error_numeric_field' => $text_error_numeric_field,
-                    'validation_file' => $validation_file
+                    'validation_file' => $validation_file,
+                    'categories' => $categories
                 ]);
         }
     }
