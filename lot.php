@@ -27,7 +27,9 @@ if (isset($_GET['id'])) {
 
     $current_lot = select_data($link, $sql_lots, [$_GET['id']])[0];
     $array_bets = select_data($link, $sql_bets, [$_GET['id']]);
-    $min_bet = select_data($link, $sql_price, [$_GET['id']])[0];
+
+    $min_bet = isset($_SESSION['user']) ? select_data($link, $sql_price, [$_GET['id']])[0] : '';
+
     $count_bets = count($array_bets);
     $main = false;
 

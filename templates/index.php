@@ -53,4 +53,5 @@
 
     <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
 </ul>
-<?php endif; ?>
+<?php endif;  echo mysqli_connect_error();?>
+

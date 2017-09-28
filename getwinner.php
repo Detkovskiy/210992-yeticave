@@ -4,11 +4,13 @@ $sql_id_lots = 'SELECT id FROM lots WHERE data_end <= NOW() AND winner_id is nul
 $id_lots = select_data($link, $sql_id_lots, '');
 
 $sql_max_bet = '
-    SELECT max(b.user_price) AS `max_bet`, u.name, u.email, u.id, l.id as `lot_id`, l.lot_name
+    SELECT b.user_price AS `max_bet`, u.name, u.email, u.id, l.id as `lot_id`, l.lot_name
     FROM bet b
-    LEFT JOIN lots l ON b.lot_id = l.id
-    LEFT JOIN user u ON b.user_id = u.id
-    WHERE b.lot_id = ?;';
+    LEFT JOIN user u ON u.id = b.user_id
+    LEFT JOIN lots l on l.id = b.lot_id
+    WHERE l.id = ?
+    ORDER BY user_price DESC
+    LIMIT 1;';
 
 $data_winner = [];
 
