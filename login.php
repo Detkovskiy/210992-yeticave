@@ -27,8 +27,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
 
 $content = render_template('templates/login.php',
     [
-        'login' => $login,
-        'categories' => $categories
+        'login' => $login
     ]);
 
 $layout = render_template('templates/layout.php',
@@ -36,6 +35,7 @@ $layout = render_template('templates/layout.php',
         'title' => $title,
         'content' => $content,
         'main' => false,
+        'no_selected' => true,
         'categories' => $categories
     ]);
 

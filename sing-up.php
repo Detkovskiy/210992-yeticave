@@ -39,8 +39,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                 $content = render_template('templates/login.php',
 
                     [
-                        'login_tittle' => 'Теперь вы можете войти, используя свой email и пароль',
-                        'categories' => $categories
+                        'login_tittle' => 'Теперь вы можете войти, используя свой email и пароль'
                     ]);
 
             } else {
@@ -58,8 +57,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
             $content = render_template('templates/sing-up.php',
 
                 [
-                    'errors' => $errors,
-                    'categories' => $categories
+                    'errors' => $errors
                 ]);
         }
 
@@ -68,8 +66,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $content = render_template('templates/sing-up.php',
             [
                 'validation_errors' => $validation_errors,
-                'validation_file' => $validation_file,
-                'categories' => $categories
+                'validation_file' => $validation_file
             ]);
     }
 
@@ -83,6 +80,7 @@ $layout = render_template('templates/layout.php',
         'title' => $title,
         'content' => $content,
         'categories' => $categories,
+        'no_selected' => true,
         'main' => false
     ]);
 

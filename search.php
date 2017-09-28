@@ -38,7 +38,6 @@ if(isset($_GET['search']) && !empty(htmlspecialchars(trim($_GET['search'])))) {
         [
             'search_text' => $search_text,
             'result_search' => $result_search,
-            'categories' => $categories,
             'pages' => $pages,
             'page_count' => $page_count,
             'current_page' => $current_page
@@ -50,7 +49,8 @@ if(isset($_GET['search']) && !empty(htmlspecialchars(trim($_GET['search'])))) {
             'content' => $content,
             'categories' => $categories,
             'main' => false,
-            'user_avatar' => $user_avatar
+            'user_avatar' => $user_avatar,
+            'no_selected' => true
         ]);
 
     print $layout;

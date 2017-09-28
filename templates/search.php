@@ -1,15 +1,6 @@
-<nav class="nav">
-    <ul class="nav__list container">
-        <?php foreach ($categories as $value): ?>
-            <li class="nav__item">
-                <a href="all-lots.php?id=<?= $value['id']; ?>"><?= $value['category_name']; ?></a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-</nav>
 <div class="container">
     <section class="lots">
-        <h2>Результаты поиска по запросу «<span><?= htmlspecialchars($search_text); ?></span>»</h2>
+        <h2><?= !empty($result_search) ? 'Результаты поиска по запросу «<span>' .  htmlspecialchars($search_text) . '</span>»' : 'По Вашему запросу «<span>' . htmlspecialchars($search_text) . '</span>» ничего не найдено';?></h2>
         <ul class="lots__list">
             <?php foreach ($result_search as $key => $value): ?>
             <li class="lots__item lot">

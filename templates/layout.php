@@ -44,6 +44,20 @@
 </header>
 
 <main <?php if ($main) {?> class="container" <?php } ; ?>>
+    <?php if (!isset($main_page)) : ?>
+        <nav class="nav">
+            <ul class="nav__list container">
+                <?php foreach ($categories as $value): ?>
+                    <li class="nav__item
+                    <?php if (!isset($no_selected)) :?>
+                        <?= ($value['id'] ==  ($_GET['id'])) ? 'nav__item--current' : ''; ?>
+                    <?php endif; ?>">
+                        <a href="all-lots.php?id=<?= $value['id']; ?>"><?= $value['category_name']; ?></a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </nav>
+    <?php endif; ?>
     <?= $content; ?>
 </main>
 
@@ -51,7 +65,10 @@
     <nav class="nav">
         <ul class="nav__list container">
             <?php foreach ($categories as $value): ?>
-                <li class="nav__item">
+                <li class="nav__item
+                <?php if (!isset($no_selected)) :?>
+                    <?= ($value['id'] ==  ($_GET['id'])) ? 'nav__item--current' : ''; ?>
+                <?php endif; ?>">
                     <a href="all-lots.php?id=<?= $value['id']; ?>"><?= $value['category_name']; ?></a>
                 </li>
             <?php endforeach; ?>

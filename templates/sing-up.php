@@ -1,12 +1,3 @@
-<nav class="nav">
-    <ul class="nav__list container">
-        <?php foreach ($categories as $value): ?>
-            <li class="nav__item">
-                <a href="all-lots.php?id=<?= $value['id']; ?>"><?= $value['category_name']; ?></a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-</nav>
 <form class="form container <?= !empty($validation_errors) || !empty($errors) ? 'form--invalid' : '' ?>" action="sing-up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
     <h2><?= !empty($error_insert_bd) ? $error_insert_bd : 'Регистрация нового аккаунта' ;?></h2>
     <div class="form__item <?= !empty($validation_errors) && (in_array('email', $validation_errors) || in_array('error_mail_validation', $validation_errors)) ? 'form__item--invalid' : (!empty($errors) && in_array('double_email', $errors) ? 'form__item--invalid' : ''); ?>"> <!-- form__item--invalid -->

@@ -20,15 +20,15 @@ if (isset($_GET['id'])) {
     WHERE b.user_price != \'\' and l.id = ?;';
 
     $sql_price = '
-    SELECT max(b.user_price) + l.cost_range AS `price`
+    SELECT b.user_price + l.cost_range AS `price`
     FROM bet b
-    LEFT JOIN lots l ON b.lot_id = l.id
-    WHERE b.lot_id = ?;';
+    LEFT JOIN lots l on l.id = b.lot_id
+    WHERE l.id = ?
+    ORDER BY user_price DESC
+    LIMIT 1';
 
     $current_lot = select_data($link, $sql_lots, [$_GET['id']])[0];
     $array_bets = select_data($link, $sql_bets, [$_GET['id']]);
-
-    $min_bet = isset($_SESSION['user']) ? select_data($link, $sql_price, [$_GET['id']])[0] : '';
 
     $count_bets = count($array_bets);
     $main = false;
@@ -38,6 +38,12 @@ if (isset($_GET['id'])) {
         $validation_errors = [];
 
         $check_bet = isset($_SESSION['user']) ? find_bet($array_bets) : '';
+
+        if ($check_bet) {
+            $min_bet = isset($_SESSION['user']) ? select_data($link, $sql_price, [$_GET['id']])[0] : '';
+        } else {
+            $min_bet = '';
+        }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -58,8 +64,7 @@ if (isset($_GET['id'])) {
                 'min_bet' => $min_bet,
                 'count_bets' => $count_bets,
                 'validation_errors' => $validation_errors,
-                'check_bet' => $check_bet,
-                'categories' => $categories
+                'check_bet' => $check_bet
             ]);
 
     } else {
@@ -74,7 +79,8 @@ if (isset($_GET['id'])) {
             'content' => $content,
             'user_avatar' => $user_avatar,
             'categories' => $categories,
-            'main' => $main
+            'main' => $main,
+            'no_selected' => true
         ]);
 
     print $layout;

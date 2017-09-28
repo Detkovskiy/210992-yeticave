@@ -40,7 +40,9 @@ $layout = render_template('templates/layout.php',
         'content' => $content,
         'categories' => $categories,
         'user_avatar' => $user_avatar,
-        'main' => true
+        'main' => true,
+        'main_page' => true,
+        'no_selected' => true
     ]);
 
 print $layout;

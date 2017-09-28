@@ -20,8 +20,7 @@ if(isset($_SESSION['user'])) {
 
     $content = render_template('templates/my-bets.php',
         [
-            'all_bets' => $all_bets,
-            'categories' => $categories
+            'all_bets' => $all_bets
         ]);
 
     $layout = render_template('templates/layout.php',
@@ -30,7 +29,8 @@ if(isset($_SESSION['user'])) {
             'content' => $content,
             'user_avatar' => $user_avatar,
             'categories' => $categories,
-            'main' => false
+            'main' => false,
+            'no_selected' => true
         ]);
 
     print $layout;

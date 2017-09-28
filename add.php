@@ -42,7 +42,6 @@ if (isset($_SESSION['user'])) {
                 [
                     'validation_errors' => $validation_errors,
                     'text_error_empty_field' => $text_error_empty_field,
-                    'categories' => $categories,
                     'text_error_numeric_field' => $text_error_numeric_field,
                     'validation_file' => $validation_file
                 ]);
@@ -55,7 +54,8 @@ if (isset($_SESSION['user'])) {
             'content' => $content,
             'user_avatar' => $user_avatar,
             'main' => false,
-            'categories' => $categories
+            'categories' => $categories,
+            'no_selected' => true
         ]);
 
     print $layout;

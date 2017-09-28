@@ -42,8 +42,7 @@ if(isset($_GET['id'])) {
             'count_category_item' => $count_category_item,
             'pages' => $pages,
             'page_count' => $page_count,
-            'current_page' => $current_page,
-            'categories' => $categories
+            'current_page' => $current_page
         ]);
 
     $layout = render_template('templates/layout.php',

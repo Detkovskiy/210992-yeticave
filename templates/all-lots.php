@@ -1,15 +1,6 @@
-<nav class="nav">
-    <ul class="nav__list container">
-        <?php foreach ($categories as $key => $value): ?>
-        <li class="nav__item <?= ($key ==  ($_GET['id'] - 1)) ? 'nav__item--current' : ''; ?>">
-            <a href="all-lots.php?id=<?= $value['id']; ?>"><?= $value['category_name']; ?></a>
-        </li>
-        <?php endforeach; ?>
-    </ul>
-</nav>
 <div class="container">
     <section class="lots">
-        <h2>Все лоты в категории <span>«<?= !empty($category_items[0]['category_name']) ? $category_items[0]['category_name'] : 'Все продано'; ?>»</span></h2>
+        <h2><?= !empty($category_items[0]['category_name']) ? 'Все лоты в категории <span>«' . $category_items[0]['category_name'] . '»' : 'Все товары этой категории проданы'; ?></span></h2>
         <ul class="lots__list">
             <?php foreach ($category_items as $key => $value): ?>
             <li class="lots__item lot">
