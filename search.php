@@ -11,7 +11,7 @@ if(isset($_GET['search']) && !empty(htmlspecialchars(trim($_GET['search'])))) {
     $mask_search_text = "%$search_text%";
 
     $current_page = $_GET['page'] ?? 1;
-    $page_item = 9;
+    $page_item = 4;
 
     $sql_count_lots = '
         SELECT count(*) as count 
