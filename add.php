@@ -29,7 +29,7 @@ if (isset($_SESSION['user'])) {
                 'image' => $validation_file['url'],
                 'cost' => $_POST['lot-rate'],
                 'cost_range' => $_POST['lot-step'],
-                'data_end' => $_POST['lot-date']
+                'data_end' => convert_date_sql($_POST['lot-date'])
             ];
 
             $lot_id = insert_data($link, 'lots', $user_add_lot) ? mysqli_insert_id($link) : '';

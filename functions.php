@@ -14,6 +14,10 @@ function render_template($file_template, $data) {
     }
 }
 
+function convert_date_sql($date) {
+    return gmdate('Y-m-d H:i:s', strtotime($date . '+3 hour'));
+}
+
 function lot_time_remaining($date_time) {
     $result = false;
     $time_now = strtotime('now');
@@ -229,3 +233,5 @@ function exec_query($link, $sql, $data) {
     $result = mysqli_stmt_execute($stmt) ? true : false;
     return $result;
 }
+
+

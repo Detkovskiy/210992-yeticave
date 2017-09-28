@@ -10,20 +10,49 @@ require_once 'getwinner.php';
 $current_page = $_GET['page'] ?? 1;
 $page_item = 3;
 
-$sql_count_lots = 'SELECT count(*) as count FROM lots;';
-$count_lots = select_data($link, $sql_count_lots, '')[0];
+if (isset($_GET['id'])) {
 
-$page_count = ceil($count_lots['count'] / $page_item);
-$offset = ($current_page - 1) * $page_item;
-$pages = range(1, $page_count);
+    if ($_GET['id'] == 'all') {
+        header("Location: index.php");
+    }
 
-$sql_lots =
-    'SELECT l.id, lot_name, cost, image, category_name, data_end
+    $sql_count_lots = '
+      SELECT count(*) as count 
+      FROM lots
+      WHERE category_id = ? AND data_end > now();';
+
+    $count_lots = select_data($link, $sql_count_lots, [$_GET['id']])[0];
+
+    $page_count = ceil($count_lots['count'] / $page_item);
+    $offset = ($current_page - 1) * $page_item;
+    $pages = range(1, $page_count);
+
+    $sql_lots = '
+        SELECT l.id, lot_name, cost, image, category_name, data_end
+        FROM lots l
+        JOIN categories c ON category_id = c.id
+        WHERE data_end > now() AND c.id = ?
+        LIMIT ? OFFSET ?;';
+
+    $array_lots = select_data($link, $sql_lots, [$_GET['id'], $page_item, $offset]);
+
+} else {
+    $sql_count_lots = 'SELECT count(*) as count FROM lots WHERE data_end > now();';
+    $count_lots = select_data($link, $sql_count_lots, '')[0];
+
+    $page_count = ceil($count_lots['count'] / $page_item);
+    $offset = ($current_page - 1) * $page_item;
+    $pages = range(1, $page_count);
+
+    $sql_lots = '
+    SELECT l.id, lot_name, cost, image, category_name, data_end
     FROM lots l
     JOIN categories c ON category_id = c.id
+    WHERE data_end > now()
     LIMIT ? OFFSET ?;';
 
-$array_lots = select_data($link, $sql_lots, [$page_item, $offset]);
+    $array_lots = select_data($link, $sql_lots, [$page_item, $offset]);
+}
 
 $content = render_template('templates/index.php',
     [
