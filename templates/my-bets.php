@@ -7,7 +7,14 @@
                 <div class="rates__img">
                     <img src="<?=$value['image']; ?>" width="54" height="40" alt="Сноуборд">
                 </div>
-                <h3 class="rates__title"><a href="lot.php?id=<?= $value['id']; ?>"><?=$value['lot_name']; ?></a></h3>
+                <div>
+                    <h3 class="rates__title"><a href="lot.php?id=<?= $value['id']; ?>"><?=$value['lot_name']; ?></a>
+                    </h3>
+                    <?php if ($value['winner_id'] == $_SESSION['user']['id']):?>
+                        <p><?= $value['contact']; ?></p>
+                    <?php endif; ?>
+                </div>
+
             </td>
             <td class="rates__category">
                 <?=$value['category_name']; ?>

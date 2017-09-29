@@ -9,10 +9,11 @@ require_once 'init.php';
 if(isset($_SESSION['user'])) {
 
     $sql_all_my_bet = '
-      SELECT l.id, lot_name, image, category_name, user_price, data_end, b.date, l.winner_id
+      SELECT l.id, lot_name, image, category_name, user_price, data_end, b.date, l.winner_id, u.contact
       FROM lots l
       LEFT JOIN categories c ON l.category_id = c.id
       LEFT JOIN bet b ON b.lot_id = l.id
+      LEFT JOIN user u ON l.user_id = u.id
       WHERE b.user_id = ?
       ORDER BY data_end DESC;';
 
