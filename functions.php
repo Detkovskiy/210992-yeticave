@@ -3,6 +3,15 @@
 require_once 'mysql_helper.php';
 require_once 'vendor/autoload.php';
 
+/**
+ * Заполняет шаблон страницы
+ *
+ * Подключает файл с шаблоном и заполняет его данными и переданного массива, возвращает готовый HTML
+ *
+ * @param string $file_template
+ * @param array $data
+ * @return array
+ */
 function render_template($file_template, $data) {
     if (file_exists($file_template)) {
         extract($data);
@@ -14,10 +23,26 @@ function render_template($file_template, $data) {
     }
 }
 
+/**
+ * Конвертирует дату для записи в БД
+ *
+ * Принимает дату в формате день.месяц.год и возвращает в формате mysql с коррекцией по часовому поясу
+ *
+ * @param string $date
+ * @return string
+ */
 function convert_date_sql($date) {
     return gmdate('Y-m-d H:i:s', strtotime($date . '+3 hour'));
 }
 
+/**
+ * Расчет времени до конца сущечтвования лота
+ *
+ * Принимает дату завершения торгов по лоту и возвращает разницу с реальным временнем
+ *
+ * @param string $date_time
+ * @return string
+ */
 function lot_time_remaining($date_time) {
     $result = false;
     $time_now = strtotime('now');
@@ -31,7 +56,42 @@ function lot_time_remaining($date_time) {
     }
 }
 
+/**
+ * Расчет времени с момента ставки
+ *
+ * Принимает дату и время когда была сделана ставка и возвращает разницу с настоящим временем
+ *
+ * @param string $date_time
+ * @return string
+ */
 function format_time($date_time) {
+    /**
+     * Склонение числительных
+     *
+     * Принимает число и выбирает соответствующее склонение числительного. Всего 3 варианта, которые
+     * соответствуют числам 1, 2 и 5.
+     *
+     * @param int $number
+     * @param string $one
+     * @param string $two
+     * @param string $five
+     * @return string
+     */
+    $plural = function($number, $one, $two, $five) {
+        if (($number - $number % 10) % 100 != 10) {
+            if ($number % 10 == 1) {
+                $result = $one;
+            } elseif ($number % 10 >= 2 && $number % 10 <= 4) {
+                $result = $two;
+            } else {
+                $result = $five;
+            }
+        } else {
+            $result = $five;
+        }
+        return $result;
+    };
+
     $ts = strtotime($date_time);
     $time_now = strtotime('now');
     $one_hour = strtotime('-1 hour');
@@ -43,14 +103,22 @@ function format_time($date_time) {
             return date("d.m.y в H:i", $ts);
             break;
         case $ts < $one_hour:
-            return date("G часов назад", $time_difference);
+            return date("G", $time_difference) . ' ' . $plural(date("G", $time_difference), 'час', 'часа', 'часов') . ' ' . 'назад';
             break;
         default:
-            return date("i минут назад", $time_difference);
+            return date("i", $time_difference) . ' ' . $plural(date("i", $time_difference), 'минуту', 'минуты', 'минут') . ' ' . 'назад';
             break;
     }
 }
 
+/**
+ * Валидация формы добавления лота
+ *
+ * Проверяет поля формы на пустоту и валидность полей для цифр.
+ * Возврашает массив с ошибками.
+ *
+ * @return array
+ */
 function validation() {
     $errors = [];
     $field_numeric = ['lot-rate', 'lot-step'];
@@ -76,6 +144,14 @@ function validation() {
     return $errors;
 }
 
+/**
+ * Валидация файла
+ *
+ * Принимает файл из формы, проверяет его формат и размер, переносит его в указанную папку и возвращает массив с ошибками или ссылку на файл
+ *
+ * @param string $field_form
+ * @return array
+ */
 function file_validation($field_form) {
     $mime_type = ['image/png', 'image/jpeg'];
     $result['error'] = '';
@@ -113,6 +189,18 @@ function file_validation($field_form) {
     return $result;
 }
 
+/**
+ * Валидация входа на сайт
+ *
+ * Принимает ресур соединения с БД и почту.
+ * Проверяет поля формы на пустоту и валидность введенного пользователем email.
+ * Проверяет наличие введенной почты в БД.
+ * Возврашает массив с ошибками.
+ *
+ * @param $link
+ * @param string $email
+ * @return array
+ */
 function login_validation($link, $email) {
     $errors = [];
     $user = null;
@@ -133,6 +221,9 @@ function login_validation($link, $email) {
         }
     }
 
+    /**
+     * Если поля формы заполнены и валидны, проходит поиск пользователя в БД по введенному email
+     */
     if (empty($errors)) {
         $sql_user = '
           SELECT id, email, password, name, avatar 
@@ -149,6 +240,14 @@ function login_validation($link, $email) {
     return $result;
 }
 
+/**
+ * Валидация формы регистрации нового пользователя
+ *
+ * Проверяет поля формы на пустоту и валидность введенного пользователем email.
+ * Возврашает массив с ошибками.
+ *
+ * @return array
+ */
 function registration_validation() {
     $errors = [];
     $empty_field = ['email', 'password', 'name', 'message'];
@@ -171,6 +270,14 @@ function registration_validation() {
     return $errors;
 }
 
+/**
+ * Проверка введенной ставки
+ *
+ * Проверяет введеную ставку на: пустоту поля, введены только цифры и ставка больше уже существуещей ставки
+ *
+ * @param int $bet
+ * @return array
+ */
 function cost_validation($bet) {
     $errors = [];
 
@@ -189,6 +296,14 @@ function cost_validation($bet) {
     return $errors;
 }
 
+/**
+ * Проверка ставки
+ *
+ * Проверяет наличие ставки пользователя у лота
+ *
+ * @param array $array
+ * @return boolean
+ */
 function find_bet($array) {
     $result = false;
 
@@ -202,6 +317,16 @@ function find_bet($array) {
     return $result;
 }
 
+/**
+ * Получение данных из БД
+ *
+ * Читает данные из MySQL и возвращать их в виде массива.
+ *
+ * @param $link
+ * @param string $sql SQL-запрос с плейсхолдерами
+ * @param array $data массив с данными для запроса
+ * @return array
+ */
 function select_data($link, $sql, $data) {
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     mysqli_stmt_execute($stmt);
@@ -210,6 +335,16 @@ function select_data($link, $sql, $data) {
     return $result;
 }
 
+/**
+ * Вставка данных в БД
+ *
+ * Формирует запрос на основе имени таблицы и ассоциативного массива с ключами - именами полей, и значениями - значениями этих полей.
+ *
+ * @param $link
+ * @param string $table имя таблицы
+ * @param array $data массив с данными для запроса
+ * @return boolean
+ */
 function insert_data($link, $table, $data) {
     $keys_arr = array_keys($data);
     $keys = implode(", ", $keys_arr);
@@ -228,6 +363,16 @@ function insert_data($link, $table, $data) {
     return $result && !empty($last_id) ? $last_id : false;
 }
 
+/**
+ * Произвольный запрос из БД
+ *
+ * Выполнят запросы на обновление и удаление данных из БД
+ *
+ * @param $link
+ * @param string $sql
+ * @param array $data массив с данными для запроса
+ * @return boolean
+ */
 function exec_query($link, $sql, $data) {
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     $result = mysqli_stmt_execute($stmt) ? true : false;

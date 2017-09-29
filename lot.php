@@ -15,9 +15,11 @@ if (isset($_GET['id'])) {
 
     $sql_bets = '
     SELECT b.user_price, u.name, b.date, u.id AS `user_id`
-    FROM lots l LEFT JOIN bet b ON b.lot_id = l.id 
+    FROM lots l 
+    LEFT JOIN bet b ON b.lot_id = l.id 
     LEFT JOIN user u ON b.user_id = u.id 
-    WHERE b.user_price != \'\' and l.id = ?;';
+    WHERE b.user_price != \'\' and l.id = ?
+    ORDER BY b.date DESC;';
 
     $sql_price = '
     SELECT b.user_price + l.cost_range AS `price`
