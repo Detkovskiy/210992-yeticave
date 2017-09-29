@@ -113,7 +113,6 @@
 <script>
     function select_category() {
         var id_cat = document.getElementById("select").value;
-        //alert(x);
         location.href = "http://localhost:8888/210992-yeticave/index.php?id=" + id_cat;
 
     }
